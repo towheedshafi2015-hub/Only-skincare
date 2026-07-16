@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400;1,6..96,500&family=Jost:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+/* ============================================================
+   ONLY SKINCARE — GLOBAL DESIGN SYSTEM
+   ============================================================ */
+:root {
+  --forest-green:  #0F5D52;
+  --deep-emerald:  #145A4A;
+  --soft-sage:     #BFD5C6;
+  --warm-white:    #FAFAF7;
+  --ivory:         #F7F5F1;
+  --premium-black: #171717;
+  --charcoal:      #2A2A2A;
+  --soft-gray:     #676767;
+  --light-gray:    #B4B4B4;
+  --gold:          #D4B06A;
+  --bronze:        #B98A44;
+  --glass-light:   rgba(255,255,255,0.14);
+  --glass-border:  rgba(255,255,255,0.28);
+  --shadow-btn:    0 8px 25px rgba(15,93,82,0.28);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  /* overflow-x: clip does NOT break position:sticky (unlike overflow:hidden) */
+  overflow-x: clip;
+  scroll-behavior: auto; /* let GSAP handle smooth scroll */
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--warm-white);
+  color: var(--premium-black);
+  line-height: 1.6;
+  /* CRITICAL: overflow-x:clip here, NOT overflow:hidden — hidden breaks sticky! */
+  overflow-x: clip;
+}
+
+main { display: block; }
+
+/* ── Buttons ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 15px 32px;
+  background: var(--forest-green);
+  color: #fff;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-btn);
+  transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+  white-space: nowrap;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 38px rgba(15,93,82,0.38);
+  background: var(--deep-emerald);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: transparent;
+  color: #fff;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255,255,255,0.50);
+  cursor: pointer;
+  transition: transform 220ms ease, background 220ms ease, border-color 220ms ease;
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+}
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.80);
+}
+
+.eyebrow {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.container-os {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-left:  clamp(16px, 5vw, 80px);
+  padding-right: clamp(16px, 5vw, 80px);
+}
+
+.text-gold { color: var(--gold); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

@@ -1,0 +1,313 @@
+/* ============================================================
+   HERO SECTION
+   CSS sticky for viewport lock | rAF lerp for smooth video
+   ============================================================ */
+
+/* ── Scroll spacer ───────────────────────────────────────────
+   300vh = 100vh visible + 200vh scroll room for the video.
+   MUST have no overflow so sticky works.                     */
+.hero-wrapper {
+  position: relative;
+  height: 300vh;
+  width: 100%;
+  /* NO overflow here — overflow on a parent breaks sticky! */
+}
+
+/* ── Sticky viewport frame ───────────────────────────────────
+   CSS handles the pin. No GSAP pin needed.                   */
+.hero-sticky {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;   /* clips video to viewport; OK on the sticky element itself */
+  background: #040906; /* dark fallback while video loads */
+}
+
+/* ── Video ───────────────────────────────────────────────────*/
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  pointer-events: none;
+}
+
+/* ── Cinematic gradient overlay ──────────────────────────────
+   Left: heavy dark for text readability
+   Right: medium dark — enough to make USP pills legible
+   The video is light-bg, so we need coverage across the full
+   frame, not just the left side.                            */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    /* Overall dark base — covers the light video background */
+    rgba(4, 9, 6, 0.52),
+    /* Left-to-right gradient: extra dark on left for text    */
+    linear-gradient(
+      108deg,
+      rgba(4, 9, 6, 0.40)  0%,
+      rgba(4, 9, 6, 0.20)  50%,
+      rgba(4, 9, 6, 0.10) 100%
+    ),
+    /* Bottom vignette for depth */
+    linear-gradient(
+      to top,
+      rgba(4, 9, 6, 0.50)  0%,
+      transparent          40%
+    );
+}
+
+/* ── Foreground grid ─────────────────────────────────────────*/
+.hero-fg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(20px, 3.5vw, 60px);
+  padding-top: 64px; /* future nav clearance */
+}
+
+/* ── LEFT column ─────────────────────────────────────────────────*/
+.hero-left {
+  flex: 0 1 auto;
+  width: min(560px, 50vw);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Eyebrow */
+.hero-left .eyebrow {
+  color: var(--gold);
+  text-shadow: 0 1px 10px rgba(0,0,0,0.45);
+}
+
+/* Headline */
+.hero-headline {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(2.75rem, 5vw, 5rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: #fff;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.50);
+}
+.hero-hl-block { display: block; }
+.hero-headline em {
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 2px 20px rgba(0,0,0,0.50);
+}
+
+/* Sub-headline */
+.hero-sub {
+  font-family: 'Jost', sans-serif;
+  font-size: clamp(0.9rem, 1.25vw, 1.075rem);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.8;
+  max-width: 440px;
+  text-shadow: 0 1px 12px rgba(0,0,0,0.40);
+}
+
+/* CTA row */
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* Microcopy */
+.hero-micro {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.38);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+
+/* ── RIGHT column — USP glass pills ─────────────────────────*/
+.hero-right {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.hero-usp {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px 12px 13px;
+  border-radius: 999px;
+  /* Dark glass — guaranteed contrast regardless of video background */
+  background: rgba(6, 14, 10, 0.58);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+  cursor: default;
+  transition: background 260ms ease, transform 260ms ease;
+  width: max-content;
+  min-width: 248px;
+}
+.hero-usp:hover {
+  background: rgba(255, 255, 255, 0.17);
+  transform: translateX(-3px);
+}
+
+/* Icon circle */
+.usp-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(191, 213, 198, 0.25);
+  color: #BFD5C6;
+  flex-shrink: 0;
+  border: 1px solid rgba(191, 213, 198, 0.30);
+}
+
+/* Text inside pill */
+.usp-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.usp-name {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+.usp-tag {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.64rem;
+  font-weight: 500;
+  color: rgba(191, 213, 198, 0.92);  /* brighter green sub-label */
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+
+/* ── Scroll cue ──────────────────────────────────────────────*/
+.scroll-cue {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  pointer-events: none;
+  animation: sc-pulse 2.8s ease-in-out infinite;
+}
+.sc-text {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.42);
+}
+.sc-bar {
+  width: 1px;
+  height: 42px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.52), transparent);
+  animation: sc-drop 2.8s ease-in-out infinite;
+  transform-origin: top;
+}
+@keyframes sc-pulse {
+  0%,100% { opacity: 0.55; }
+  50%      { opacity: 0.18; }
+}
+@keyframes sc-drop {
+  0%    { transform: scaleY(0); transform-origin: top;    }
+  48%   { transform: scaleY(1); transform-origin: top;    }
+  52%   { transform: scaleY(1); transform-origin: bottom; }
+  100%  { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ── Tablet 1024px ──────────────────────────────────────────*/
+@media (max-width: 1100px) {
+  .hero-left  { width: min(460px, 52vw); }
+  .hero-usp   { min-width: 220px; }
+}
+
+/* ── Mobile 768px ────────────────────────────────────────────*/
+@media (max-width: 768px) {
+  .hero-fg {
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding-bottom: 48px;
+    padding-top: 80px;
+    gap: 24px;
+  }
+  .hero-left {
+    width: 100%;
+    gap: 16px;
+  }
+  .hero-headline { 
+    font-size: clamp(2.0rem, 7.2vw, 2.75rem); 
+  }
+  .hero-right {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .hero-usp {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    padding: 8px 12px;
+    gap: 8px;
+    box-sizing: border-box;
+  }
+  .usp-icon-wrap {
+    width: 28px;
+    height: 28px;
+  }
+  .usp-name {
+    white-space: normal;
+    font-size: 0.72rem;
+    line-height: 1.2;
+  }
+  .usp-tag { display: none; }
+  /* Heavier overlay on mobile */
+  .hero-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(4,9,6,0.60) 0%,
+      rgba(4,9,6,0.28) 50%,
+      rgba(4,9,6,0.72) 100%
+    );
+  }
+}
+
+/* ── Small phone ─────────────────────────────────────────────*/
+@media (max-width: 480px) {
+  .hero-ctas { flex-direction: column; width: 100%; }
+  .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+}

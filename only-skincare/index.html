@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Only Skincare — Science-backed formulations trusted by 50,000+ customers. Dermatologist tested. Cruelty free. Made for Indian skin." />
+    <title>Only Skincare — Science. Nature. You.</title>
+    <!-- Preload hero video so first frame is instant -->
+    <link rel="preload" href="/hero.mp4" as="video" type="video/mp4" />
+    <!-- Critical: dark bg prevents white flash before CSS loads -->
+    <style>
+      html, body { margin: 0; padding: 0; background: #040906; overflow-x: clip; }
+      #root { min-height: 100vh; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,504 @@
+/* ============================================================
+   FEATURED COLLECTION & CART DRAWER — CSS Stylesheets
+   ============================================================ */
+
+.fc-section {
+  position: relative;
+  background-color: var(--warm-white);
+  padding-top: 100px;
+  padding-bottom: 120px;
+}
+
+.fc-header {
+  max-width: 600px;
+  margin: 0 auto 60px auto;
+}
+
+.fc-eyebrow {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+
+.fc-title {
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-weight: 500;
+  color: var(--premium-black);
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.fc-subtitle {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--soft-gray);
+  line-height: 1.7;
+}
+
+/* ── Product Grid ── */
+.fc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
+
+.fc-card {
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  border-radius: var(--radius-card);
+  transition: transform 300ms ease;
+}
+
+.fc-img-frame {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background-color: var(--ivory);
+  border: 1px solid rgba(23, 23, 23, 0.05);
+}
+
+.fc-product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fc-card:hover .fc-product-img {
+  transform: scale(1.06);
+}
+
+/* Badge overlay */
+.fc-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: var(--forest-green);
+  color: #fff;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(15,93,82,0.15);
+}
+
+/* Details area */
+.fc-info {
+  display: flex;
+  flex-direction: column;
+  padding: 18px 4px 4px 4px;
+  flex: 1;
+}
+
+.fc-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.fc-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.fc-rating-num {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--premium-black);
+}
+
+.fc-reviews-count {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.70rem;
+  color: var(--soft-gray);
+}
+
+.fc-card-title {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--premium-black);
+  line-height: 1.3;
+  margin-bottom: 8px;
+  min-height: 48px; /* keep height uniform */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.fc-card-price {
+  font-family: 'Jost', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--forest-green);
+  margin-bottom: 18px;
+}
+
+/* Quick Add Button */
+.fc-add-btn {
+  width: 100%;
+  justify-content: center;
+  padding: 13px 20px;
+  font-size: 0.78rem;
+  box-shadow: none;
+  background: var(--charcoal);
+}
+.fc-add-btn:hover {
+  background: var(--forest-green);
+  box-shadow: var(--shadow-btn);
+}
+.fc-add-btn.adding {
+  background: var(--forest-green);
+  opacity: 0.85;
+  cursor: not-allowed;
+}
+
+/* ── SKELETON LOADER ── */
+.fc-skeleton-card {
+  display: flex;
+  flex-direction: column;
+}
+.fc-skeleton-img {
+  width: 100%;
+  height: 340px;
+  border-radius: var(--radius-card);
+  background: linear-gradient(90deg, var(--ivory) 25%, var(--cream) 50%, var(--ivory) 75%);
+  background-size: 200% 100%;
+  animation: pulse-skele 1.6s infinite;
+}
+.fc-skeleton-line {
+  height: 14px;
+  border-radius: 4px;
+  background: var(--ivory);
+  animation: pulse-skele 1.6s infinite;
+}
+.fc-skeleton-btn {
+  height: 44px;
+  border-radius: 999px;
+  background: var(--ivory);
+  animation: pulse-skele 1.6s infinite;
+}
+@keyframes pulse-skele {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ============================================================
+   CART DRAWER SYSTEM
+   ============================================================ */
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 9, 6, 0.40);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cart-panel {
+  width: 460px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -15px 0 50px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  animation: cart-slide 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+@keyframes cart-slide {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.cart-header {
+  padding: 24px 28px;
+  border-bottom: 1px solid rgba(23,23,23,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cart-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cart-title {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--premium-black);
+}
+
+.cart-count-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--mint-mist);
+  color: var(--forest-green);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.cart-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--premium-black);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background 200ms ease;
+}
+.cart-close-btn:hover {
+  background: var(--ivory);
+}
+
+/* Scroll Content */
+.cart-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Empty state */
+.cart-empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 40px;
+}
+.empty-bag-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: var(--ivory);
+  margin-bottom: 24px;
+}
+.empty-title {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--premium-black);
+  margin-bottom: 8px;
+}
+.empty-desc {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.88rem;
+  color: var(--soft-gray);
+  max-width: 260px;
+  line-height: 1.6;
+}
+
+/* Items List */
+.cart-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.cart-item {
+  display: flex;
+  gap: 16px;
+  position: relative;
+}
+
+.cart-item-img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid rgba(23, 23, 23, 0.05);
+  background-color: var(--ivory);
+}
+
+.cart-item-details {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+}
+
+.cart-item-name {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--premium-black);
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.cart-item-variant {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.72rem;
+  color: var(--soft-gray);
+  margin-bottom: 6px;
+}
+
+.cart-item-price {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--forest-green);
+  margin-bottom: 10px;
+}
+
+/* Qty controls */
+.cart-qty-selector {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--light-gray);
+  border-radius: 999px;
+  width: max-content;
+}
+.qty-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: transparent;
+  border: none;
+  color: var(--charcoal);
+  cursor: pointer;
+}
+.qty-number {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0 10px;
+  color: var(--premium-black);
+}
+
+.cart-item-remove {
+  position: absolute;
+  top: 8px;
+  right: 0;
+  background: transparent;
+  border: none;
+  color: var(--light-gray);
+  cursor: pointer;
+  transition: color 200ms ease;
+}
+.cart-item-remove:hover {
+  color: #DC2626;
+}
+
+/* Checkout Area */
+.cart-footer {
+  padding: 24px 28px;
+  border-top: 1px solid rgba(23,23,23,0.06);
+  background: var(--ivory);
+}
+
+.cart-summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.summary-label {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--charcoal);
+}
+
+.summary-val {
+  font-family: 'Jost', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--premium-black);
+}
+
+.cart-tax-notice {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.75rem;
+  color: var(--soft-gray);
+  margin-bottom: 18px;
+}
+
+.cart-checkout-btn {
+  width: 100%;
+  justify-content: center;
+  font-size: 0.82rem;
+  padding: 16px 20px;
+  box-shadow: 0 8px 25px rgba(15, 93, 82, 0.22);
+}
+
+.cart-continue-btn {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--soft-gray);
+  font-family: 'Jost', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  margin-top: 14px;
+  cursor: pointer;
+  transition: color 200ms ease;
+}
+.cart-continue-btn:hover {
+  color: var(--premium-black);
+}
+
+/* ── TABLET BREAKPOINT ── */
+@media (max-width: 1024px) {
+  .fc-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .fc-img-frame {
+    height: 300px;
+  }
+}
+
+/* ── MOBILE BREAKPOINT ── */
+@media (max-width: 768px) {
+  .fc-section {
+    padding-top: 68px;
+    padding-bottom: 80px;
+  }
+  .fc-header {
+    margin-bottom: 40px;
+  }
+  .fc-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .fc-img-frame {
+    height: 380px; /* full height on portrait mobile cards */
+  }
+  .cart-panel {
+    width: 100%; /* full width on mobile drawer */
+  }
+}

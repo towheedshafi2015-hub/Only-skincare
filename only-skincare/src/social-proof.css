@@ -1,0 +1,316 @@
+/* ============================================================
+   SOCIAL PROOF STRIP — Premium Editorial Redesign
+   Enforced 700px height (Desktop & Mobile) | Luxury Aesthetic
+   ============================================================ */
+
+.sp-section {
+  position: relative;
+  height: 700px;
+  min-height: 700px;
+  max-height: 700px;
+  width: 100%;
+  background-color: #FAF8F5; /* luxury warm ivory */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+}
+
+/* ── Editorial Background Effects ── */
+.sp-bg-light {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(191, 213, 198, 0.28) 0%, transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(212, 176, 106, 0.12) 0%, transparent 50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.sp-bg-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.02;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3 Preserving aspect ratio%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: 2;
+}
+
+/* ── Main content wrapper ── */
+.sp-canvas-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+/* ── CENTER STACK: The Luxury Card ── */
+.sp-center-stack {
+  position: relative;
+  z-index: 10;
+  max-width: 480px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    0 30px 70px rgba(15, 93, 82, 0.05),
+    0 10px 20px rgba(0, 0, 0, 0.02);
+  padding: 44px 40px;
+  border-radius: 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+/* Brand Trust Badge */
+.sp-badge-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(15, 93, 82, 0.06);
+  border: 1px solid rgba(15, 93, 82, 0.12);
+  color: var(--forest-green);
+  border-radius: 999px;
+  margin-bottom: 4px;
+}
+.sp-badge-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--forest-green);
+}
+.sp-badge-txt {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+
+/* Heading */
+.sp-title {
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(2.0rem, 3.2vw, 2.65rem);
+  font-weight: 500;
+  color: var(--premium-black);
+  line-height: 1.1;
+}
+.sp-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--forest-green);
+}
+
+/* Subtitle */
+.sp-subtitle {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.925rem;
+  font-weight: 300;
+  color: var(--charcoal);
+  line-height: 1.65;
+}
+
+/* Stars & ratings */
+.sp-stars-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sp-stars {
+  display: flex;
+  gap: 3px;
+}
+.sp-rating-txt {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--premium-black);
+  letter-spacing: 0.02em;
+}
+
+/* Buy CTA Button Area */
+.sp-cta-box {
+  width: 100%;
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.sp-buy-btn {
+  width: 100%;
+  justify-content: center;
+  font-size: 0.82rem;
+  padding: 16px 36px;
+  box-shadow: 0 10px 25px rgba(15, 93, 82, 0.18);
+}
+.sp-cta-subtext {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.68rem;
+  color: var(--soft-gray);
+}
+
+/* ── FLOATING GROUP: Customer Portions ── */
+.sp-floating-group {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none; /* Let clicks pass to the card beneath if overlapping */
+}
+
+/* Floating Portions (Avatars) */
+.sp-creator-bubble {
+  position: absolute;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: bubble-float-new 6.5s ease-in-out infinite alternate;
+  pointer-events: auto; /* Re-enable clicks on the bubbles themselves */
+}
+
+.sp-avatar-frame {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  padding: 4px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 8px 30px rgba(15,93,82,0.06);
+  transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 380ms ease, border-color 380ms ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+.sp-avatar-frame:hover {
+  transform: scale(1.08);
+  box-shadow: 0 15px 35px rgba(15,93,82,0.12);
+  border-color: var(--soft-sage);
+}
+
+.sp-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  filter: grayscale(10%);
+  transition: filter 380ms ease;
+}
+.sp-avatar-frame:hover .sp-avatar-img {
+  filter: grayscale(0%);
+}
+
+/* Elegant, thin glass tags */
+.sp-floating-tag {
+  position: absolute;
+  z-index: 15;
+  pointer-events: none;
+  animation: tag-float-new 5.5s ease-in-out infinite alternate;
+}
+
+.sp-tag-body {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.90);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.sp-tag-content {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.sp-tag-val {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--premium-black);
+  line-height: 1.2;
+}
+
+.sp-tag-lbl {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.60rem;
+  font-weight: 500;
+  color: var(--soft-gray);
+}
+
+/* ── ANIMATION KEYFRAMES ── */
+@keyframes bubble-float-new {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-14px); }
+}
+
+@keyframes tag-float-new {
+  0%   { transform: translateY(0) scale(1); }
+  100% { transform: translateY(6px) scale(0.98); }
+}
+
+/* ── TABLET BREAKPOINT ── */
+@media (max-width: 1024px) {
+  .sp-center-stack {
+    max-width: 420px;
+    padding: 36px 32px;
+  }
+}
+
+/* ── MOBILE BREAKPOINT (Strict 700px height preserved) ── */
+@media (max-width: 768px) {
+  .sp-section {
+    height: 700px;
+    min-height: 700px;
+    max-height: 700px;
+  }
+
+  .sp-center-stack {
+    max-width: calc(100% - 32px);
+    margin: 0 16px;
+    padding: 28px 24px;
+    gap: 14px;
+  }
+
+  .sp-title {
+    font-size: 1.75rem;
+  }
+
+  .sp-subtitle {
+    font-size: 0.85rem;
+  }
+
+  /* Hide the smaller avatars on mobile to keep layout clean & uncluttered */
+  .sp-creator-bubble.w-14 {
+    display: none;
+  }
+
+  /* Reposition larger bubbles so they fit cleanly in 700px bounds without collision */
+  .sp-creator-bubble[class*="top-[8%]"] {
+    top: 4%;
+  }
+  .sp-creator-bubble[class*="bottom-[12%]"] {
+    bottom: 6%;
+  }
+
+  /* Shrink floating tags slightly for mobile spacing */
+  .sp-tag-body {
+    padding: 6px 10px;
+  }
+  .sp-tag-val {
+    font-size: 0.70rem;
+  }
+}
