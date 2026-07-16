@@ -1,141 +1,236 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Check, X, ShieldAlert, ShieldCheck, Sparkles } from 'lucide-react'
+import { Check, X, Sparkles } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const COMPARISONS = [
+const STEPS = [
   {
+    number: '01',
     topic: 'Formulation Base',
-    traditional: 'Harsh synthetic chemicals & fillers',
-    onlySkincare: 'Clean, clinical bio-active ingredients',
+    traditional: {
+      title: 'Harsh Chemicals',
+      desc: 'Synthetic fillers, parabens, and sulfates that strip the skin barrier.',
+    },
+    onlySkincare: {
+      title: 'Clinical Bio-Actives',
+      desc: 'High-purity niacinamide, hyaluronic acids, and clean botanical botanical synergy.',
+    },
   },
   {
+    number: '02',
     topic: 'Targeted Action',
-    traditional: 'Temporary surface fixes & cosmetic cover-ups',
-    onlySkincare: 'Long-term cellular renewal & deep hydration',
+    traditional: {
+      title: 'Temporary Surface Fixes',
+      desc: 'High-silicone cover-ups that create an illusion of glow while clogging pores.',
+    },
+    onlySkincare: {
+      title: 'Cellular Renewal',
+      desc: 'Long-term deep renewal that heals the dermis layers from within.',
+    },
   },
   {
+    number: '03',
     topic: 'Clinical Validation',
-    traditional: 'Generic, unverified claims & self-testing',
-    onlySkincare: 'Dermatologist tested & clinically approved',
+    traditional: {
+      title: 'Generic Self-Claims',
+      desc: 'Marketing hype and unverified self-testing parameters.',
+    },
+    onlySkincare: {
+      title: 'Dermatologist Verified',
+      desc: 'Rigorous third-party clinical patch tests proving zero irritation.',
+    },
   },
   {
-    topic: 'Customer Success',
-    traditional: 'Low repeat rates & inconsistent reviews',
-    onlySkincare: '98% proven track record of visible results',
+    number: '04',
+    topic: 'Satisfaction Rate',
+    traditional: {
+      title: 'Inconsistent Results',
+      desc: 'High returns and mixed reviews due to generic chemical formulations.',
+    },
+    onlySkincare: {
+      title: '98% Track Record',
+      desc: 'Proven visible skin improvements trusted by 50,000+ D2C consumers.',
+    },
   },
 ]
 
 export default function WhyChooseUs() {
   const containerRef = useRef<HTMLDivElement>(null)
+  const [activeStep, setActiveStep] = useState(0)
+  const prevStepRef = useRef(0)
+
+  // ── Native Web Audio UI Tick Synthesizer ──
+  const playTick = () => {
+    try {
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)()
+      const osc = audioCtx.createOscillator()
+      const gain = audioCtx.createGain()
+
+      osc.connect(gain)
+      gain.connect(audioCtx.destination)
+
+      osc.type = 'sine'
+      osc.frequency.setValueAtTime(1000, audioCtx.currentTime) // High-pitch tick
+      osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.06)
+
+      gain.gain.setValueAtTime(0.03, audioCtx.currentTime) // Minimal volume
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.06)
+
+      osc.start()
+      osc.stop(audioCtx.currentTime + 0.06)
+    } catch (e) {
+      console.warn('Audio click not supported or blocked by user gesture:', e)
+    }
+  }
 
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: el,
-        start: 'top 80%',
-        toggleActions: 'play none none none',
+    // ScrollTrigger to track steps based on scroll progress
+    const st = ScrollTrigger.create({
+      trigger: el,
+      start: 'top top',
+      end: '+=200vh',
+      onUpdate(self) {
+        // Divide progress (0-1) into 4 discrete step intervals
+        const progress = self.progress
+        let step = Math.floor(progress * 4)
+        if (step > 3) step = 3
+
+        if (step !== prevStepRef.current) {
+          setActiveStep(step)
+          prevStepRef.current = step
+          playTick() // Play acoustic cue on transition
+        }
       },
     })
 
-    tl.from('.wcu-eyebrow', { opacity: 0, y: 15, duration: 0.6 })
-      .from('.wcu-title', { opacity: 0, y: 25, duration: 0.7 }, '-=0.4')
-      .from('.wcu-subtitle', { opacity: 0, y: 20, duration: 0.6 }, '-=0.4')
-      .from('.wcu-card-them', { opacity: 0, x: -30, duration: 0.8, ease: 'power2.out' }, '-=0.3')
-      .from('.wcu-card-us', { opacity: 0, x: 30, duration: 0.8, ease: 'power2.out' }, '-=0.8')
-
     return () => {
-      tl.kill()
+      st.kill()
     }
   }, [])
 
-  return (
-    <section ref={containerRef} className="wcu-section">
-      <div className="container-os">
-        
-        {/* Header Stack */}
-        <div className="wcu-header text-center">
-          <span className="wcu-eyebrow eyebrow">The Comparison</span>
-          <h2 className="wcu-title">
-            Clinical Efficacy Over<br />
-            <em>Marketing Hype.</em>
-          </h2>
-          <p className="wcu-subtitle">
-            Most brands hide behind beautiful packaging. We prioritize dermatological science to bring you long-term, visible results.
-          </p>
-        </div>
+  // Animating the content shift inside the details card on active step change
+  useEffect(() => {
+    gsap.fromTo(
+      '.wcu-detail-anim',
+      { opacity: 0, y: 15 },
+      { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out', stagger: 0.08 }
+    )
+  }, [activeStep])
 
-        {/* Comparison Grid */}
-        <div className="wcu-grid">
+  return (
+    /* 
+      WhyChooseUs container is 300vh total height.
+      CSS Sticky pin handles 100vh lock.
+    */
+    <div ref={containerRef} className="wcu-wrapper">
+      <div className="wcu-sticky">
+        
+        {/* Editorial Background Noise */}
+        <div className="wcu-noise" />
+
+        <div className="wcu-content container-os">
           
-          {/* Card: Traditional Brands */}
-          <div className="wcu-card wcu-card-them">
-            <div className="wcu-card-header">
-              <span className="wcu-card-alert-icon">
-                <ShieldAlert size={18} />
-              </span>
-              <h3 className="wcu-card-title">Traditional Brands</h3>
-              <p className="wcu-card-desc">Generic cosmetic shelf-fillers</p>
-            </div>
-            
-            <div className="wcu-items">
-              {COMPARISONS.map((item, i) => (
-                <div key={i} className="wcu-item">
-                  <span className="wcu-icon-bad">
-                    <X size={14} />
-                  </span>
-                  <div className="wcu-item-text">
-                    <span className="wcu-item-topic">{item.topic}</span>
-                    <span className="wcu-item-value">{item.traditional}</span>
+          {/* LEFT SIDE: The 3D/Timeline Staircase Graphic */}
+          <div className="wcu-left">
+            <div className="wcu-staircase-canvas">
+              {STEPS.map((step, idx) => {
+                const isActive = idx === activeStep
+                const isPassed = idx < activeStep
+                return (
+                  <div
+                    key={step.number}
+                    className={`wcu-stair-container stair-pos-${idx} ${isActive ? 'active' : ''} ${isPassed ? 'passed' : ''}`}
+                  >
+                    {/* The 3D Step Block */}
+                    <div className="wcu-stair-block">
+                      <div className="stair-face face-top">
+                        <span className="stair-num">{step.number}</span>
+                      </div>
+                      <div className="stair-face face-front" />
+                      <div className="stair-face face-side" />
+                    </div>
+
+                    {/* Step Label */}
+                    <span className="wcu-stair-label">{step.topic}</span>
                   </div>
-                </div>
-              ))}
+                )
+              })}
+
+              {/* Glowing climber/indicator line */}
+              <div className="wcu-climb-line" />
             </div>
           </div>
 
-          {/* Card: Only Skincare (The Glow Card) */}
-          <div className="wcu-card wcu-card-us">
+          {/* RIGHT SIDE: The Interactive Comparison Detail Panel */}
+          <div className="wcu-right">
             
-            {/* Spotlight Accent */}
-            <div className="wcu-card-spotlight" />
+            {/* Header info */}
+            <div className="wcu-detail-anim wcu-step-indicator">
+              <span className="wcu-ind-num text-gold">STEP {STEPS[activeStep].number}</span>
+              <span className="wcu-ind-divider">/</span>
+              <span className="wcu-ind-total">04</span>
+            </div>
 
-            <div className="wcu-card-header">
-              <span className="wcu-card-success-icon">
-                <ShieldCheck size={18} />
-              </span>
-              <h3 className="wcu-card-title">Only Skincare</h3>
-              <p className="wcu-card-desc">Dermatologist-formulated science</p>
+            <h2 className="wcu-detail-anim wcu-step-topic">
+              {STEPS[activeStep].topic}
+            </h2>
+
+            {/* Comparison Cards Stack */}
+            <div className="wcu-detail-anim wcu-comparison-stack">
               
-              {/* Premium Glow Tag */}
-              <span className="wcu-glow-tag">
-                <Sparkles size={10} className="inline mr-1" />
-                Dermatologically Approved
-              </span>
-            </div>
-            
-            <div className="wcu-items">
-              {COMPARISONS.map((item, i) => (
-                <div key={i} className="wcu-item">
-                  <span className="wcu-icon-good">
-                    <Check size={14} />
+              {/* Traditional (Them) */}
+              <div className="wcu-comp-card card-them">
+                <div className="wcu-comp-header">
+                  <span className="wcu-comp-icon icon-bad">
+                    <X size={12} />
                   </span>
-                  <div className="wcu-item-text">
-                    <span className="wcu-item-topic text-sage">{item.topic}</span>
-                    <span className="wcu-item-value text-white">{item.onlySkincare}</span>
-                  </div>
+                  <h3 className="wcu-comp-brand">Traditional Brands</h3>
                 </div>
-              ))}
+                <h4 className="wcu-comp-title">{STEPS[activeStep].traditional.title}</h4>
+                <p className="wcu-comp-desc">{STEPS[activeStep].traditional.desc}</p>
+              </div>
+
+              {/* Only Skincare (Us) */}
+              <div className="wcu-comp-card card-us">
+                <div className="wcu-card-glow" />
+                
+                <div className="wcu-comp-header">
+                  <span className="wcu-comp-icon icon-good">
+                    <Check size={12} />
+                  </span>
+                  <h3 className="wcu-comp-brand text-sage">Only Skincare</h3>
+                  <span className="wcu-verified-badge">
+                    <Sparkles size={8} className="inline mr-1" />
+                    Dermatologist Ok
+                  </span>
+                </div>
+                <h4 className="wcu-comp-title text-white">{STEPS[activeStep].onlySkincare.title}</h4>
+                <p className="wcu-comp-desc text-white/80">{STEPS[activeStep].onlySkincare.desc}</p>
+              </div>
+
             </div>
+
+            {/* Brand CTA Button at the base of details */}
+            <div className="wcu-detail-anim wcu-step-cta">
+              <button 
+                className="btn-primary wcu-action-btn"
+                onClick={() => alert('Add to cart / Buy Now')}
+              >
+                Buy Now — Shop Best Sellers
+              </button>
+              <p className="wcu-cta-sub">Tap to transition your skincare routine today.</p>
+            </div>
+
           </div>
 
         </div>
 
       </div>
-    </section>
+    </div>
   )
 }
