@@ -127,7 +127,6 @@
 
 /* ACTIVE STATE STYLING */
 .wcu-stair-container.active {
-  transform: translateY(-10px); /* step rises when active */
 }
 
 .wcu-stair-container.active .wcu-stair-block {
@@ -155,6 +154,31 @@
 }
 .wcu-stair-container.passed .stair-num {
   color: var(--forest-green);
+}
+
+/* 3D Climber indicator */
+.wcu-climber {
+  position: absolute;
+  left: 4%;
+  bottom: 8%;
+  width: 130px;
+  height: 24px;
+  background: var(--forest-green);
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  box-shadow: 
+    0 8px 0 var(--deep-emerald),
+    0 0 20px rgba(212, 176, 106, 0.45);
+  z-index: 12;
+  pointer-events: none;
+}
+
+.climber-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.45) 0%, transparent 80%);
+  opacity: 0.8;
 }
 
 /* Dashed alignment climber line */
@@ -426,6 +450,17 @@
     border-left: 2px dashed rgba(15, 93, 82, 0.15);
     border-bottom: none;
     transform: translateX(-50%);
+  }
+
+  /* 3D Climber Mobile layout */
+  .wcu-climber {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    box-shadow: 
+      0 0 15px rgba(212, 176, 106, 0.6);
   }
 
   /* Details side on mobile */

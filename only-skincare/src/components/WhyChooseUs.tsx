@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
+import { Check, X, Sparkles } from 'lucide-react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Check, X, Sparkles } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -114,6 +114,7 @@ export default function WhyChooseUs() {
     const el = containerRef.current
     if (!el) return
 
+    // 1. ScrollTrigger to track steps and play sound
     const st = ScrollTrigger.create({
       trigger: el,
       start: 'top top',
@@ -131,19 +132,46 @@ export default function WhyChooseUs() {
       },
     })
 
+    // 2. Responsive GSAP Timeline for smooth cross-fades and climber moves
+    const isMobile = window.innerWidth <= 768
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: el,
+        start: 'top top',
+        end: '+=200vh',
+        scrub: 1, // Smooth scrub lag
+      },
+    })
+
+    // Setup initial details visibility
+    gsap.set('.wcu-pane-0', { opacity: 1, display: 'flex' })
+    gsap.set(['.wcu-pane-1', '.wcu-pane-2', '.wcu-pane-3'], { opacity: 0, display: 'none' })
+
+    // Details pane cross-fades
+    tl.to('.wcu-pane-0', { opacity: 0, display: 'none', duration: 0.25 }, 0.15)
+      .to('.wcu-pane-1', { opacity: 1, display: 'flex', duration: 0.25 }, 0.25)
+      .to('.wcu-pane-1', { opacity: 0, display: 'none', duration: 0.25 }, 0.48)
+      .to('.wcu-pane-2', { opacity: 1, display: 'flex', duration: 0.25 }, 0.58)
+      .to('.wcu-pane-2', { opacity: 0, display: 'none', duration: 0.25 }, 0.78)
+      .to('.wcu-pane-3', { opacity: 1, display: 'flex', duration: 0.25 }, 0.88)
+
+    // Climber track movements
+    if (isMobile) {
+      tl.to('.wcu-climber', { bottom: '30%', duration: 1 }, 0.15)
+        .to('.wcu-climber', { bottom: '55%', duration: 1 }, 0.48)
+        .to('.wcu-climber', { bottom: '80%', duration: 1 }, 0.78)
+    } else {
+      tl.to('.wcu-climber', { left: '24%', bottom: '28%', duration: 1 }, 0.15)
+        .to('.wcu-climber', { left: '44%', bottom: '48%', duration: 1 }, 0.48)
+        .to('.wcu-climber', { left: '64%', bottom: '68%', duration: 1 }, 0.78)
+    }
+
     return () => {
       st.kill()
+      tl.scrollTrigger?.kill()
+      tl.kill()
     }
   }, [])
-
-  // Smoothly animate details panel card transitions
-  useEffect(() => {
-    gsap.fromTo(
-      '.wcu-detail-anim',
-      { opacity: 0, y: 12 },
-      { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', stagger: 0.06 }
-    )
-  }, [activeStep])
 
   return (
     <div ref={containerRef} className="wcu-wrapper">
@@ -180,59 +208,73 @@ export default function WhyChooseUs() {
                 )
               })}
 
+              {/* Smooth 3D Climber Block */}
+              <div className="wcu-climber">
+                <div className="climber-glow" />
+              </div>
+
               {/* Dashed background timeline */}
               <div className="wcu-climb-line" />
             </div>
           </div>
 
-          {/* RIGHT SIDE: Dynamic Comparison Details */}
+          {/* RIGHT SIDE: Dynamic Comparison Details (Scrub cross-faded) */}
           <div className="wcu-right">
             
-            <div className="wcu-detail-anim wcu-step-indicator">
-              <span className="wcu-ind-num text-gold">STEP {STEPS[activeStep].number}</span>
-              <span className="wcu-ind-divider">/</span>
-              <span className="wcu-ind-total">04</span>
-            </div>
-
-            <h2 className="wcu-detail-anim wcu-step-topic">
-              {STEPS[activeStep].topic}
-            </h2>
-
-            <div className="wcu-detail-anim wcu-comparison-stack">
-              
-              {/* Traditional (Them) */}
-              <div className="wcu-comp-card card-them">
-                <div className="wcu-comp-header">
-                  <span className="wcu-comp-icon icon-bad">
-                    <X size={12} />
-                  </span>
-                  <h3 className="wcu-comp-brand">Traditional Brands</h3>
-                </div>
-                <h4 className="wcu-comp-title">{STEPS[activeStep].traditional.title}</h4>
-                <p className="wcu-comp-desc">{STEPS[activeStep].traditional.desc}</p>
-              </div>
-
-              {/* Only Skincare (Us) */}
-              <div className="wcu-comp-card card-us">
-                <div className="wcu-card-glow" />
+            {STEPS.map((step, idx) => (
+              <div key={step.number} className={`wcu-detail-pane wcu-pane-${idx}`}>
                 
-                <div className="wcu-comp-header">
-                  <span className="wcu-comp-icon icon-good">
-                    <Check size={12} />
-                  </span>
-                  <h3 className="wcu-comp-brand text-sage">Only Skincare</h3>
-                  <span className="wcu-verified-badge">
-                    <Sparkles size={8} className="inline mr-1" />
-                    Dermatologist Ok
-                  </span>
+                {/* Step Indicator */}
+                <div className="wcu-step-indicator">
+                  <span className="wcu-ind-num text-gold">STEP {step.number}</span>
+                  <span className="wcu-ind-divider">/</span>
+                  <span className="wcu-ind-total">04</span>
                 </div>
-                <h4 className="wcu-comp-title text-white">{STEPS[activeStep].onlySkincare.title}</h4>
-                <p className="wcu-comp-desc text-white/80">{STEPS[activeStep].onlySkincare.desc}</p>
+
+                <h2 className="wcu-step-topic">
+                  {step.topic}
+                </h2>
+
+                {/* Comparison Stack */}
+                <div className="wcu-comparison-stack">
+                  
+                  {/* Traditional (Them) */}
+                  <div className="wcu-comp-card card-them">
+                    <div className="wcu-comp-header">
+                      <span className="wcu-comp-icon icon-bad">
+                        <X size={12} />
+                      </span>
+                      <h3 className="wcu-comp-brand">Traditional Brands</h3>
+                    </div>
+                    <h4 className="wcu-comp-title">{step.traditional.title}</h4>
+                    <p className="wcu-comp-desc">{step.traditional.desc}</p>
+                  </div>
+
+                  {/* Only Skincare (Us) */}
+                  <div className="wcu-comp-card card-us">
+                    <div className="wcu-card-glow" />
+                    
+                    <div className="wcu-comp-header">
+                      <span className="wcu-comp-icon icon-good">
+                        <Check size={12} />
+                      </span>
+                      <h3 className="wcu-comp-brand text-sage">Only Skincare</h3>
+                      <span className="wcu-verified-badge">
+                        <Sparkles size={8} className="inline mr-1" />
+                        Dermatologist Ok
+                      </span>
+                    </div>
+                    <h4 className="wcu-comp-title text-white">{step.onlySkincare.title}</h4>
+                    <p className="wcu-comp-desc text-white/80">{step.onlySkincare.desc}</p>
+                  </div>
+
+                </div>
+
               </div>
+            ))}
 
-            </div>
-
-            <div className="wcu-detail-anim wcu-step-cta">
+            {/* Brand CTA Button at the base of details */}
+            <div className="wcu-step-cta">
               <button 
                 className="btn-primary wcu-action-btn"
                 onClick={() => alert('Add to cart / Buy Now')}
