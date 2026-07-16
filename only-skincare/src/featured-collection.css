@@ -492,11 +492,38 @@
     margin-bottom: 40px;
   }
   .fc-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
   }
   .fc-img-frame {
-    height: 380px; /* full height on portrait mobile cards */
+    height: 210px; /* scaled down for side-by-side cards */
+  }
+  .fc-badge {
+    font-size: 0.55rem;
+    padding: 3px 8px;
+    top: 8px;
+    left: 8px;
+  }
+  .fc-card-title {
+    font-size: 0.95rem;
+    min-height: 38px;
+    margin-bottom: 4px;
+    line-height: 1.25;
+  }
+  .fc-card-price {
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+  }
+  .fc-rating-row {
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+  .fc-reviews-count {
+    display: none; /* hide reviews count on mobile for spacing */
+  }
+  .fc-add-btn {
+    padding: 10px 12px;
+    font-size: 0.72rem;
   }
   .cart-panel {
     width: 100%; /* full width on mobile drawer */
