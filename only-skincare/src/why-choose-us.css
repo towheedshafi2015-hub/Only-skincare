@@ -365,28 +365,28 @@
   }
 }
 
-/* ── MOBILE BREAKPOINT (Locked to 700px height) ── */
+/* ── MOBILE BREAKPOINT (Locked to 500px height for ultra-tight layout) ── */
 @media (max-width: 768px) {
   .wcu-sticky {
-    height: 700px;
-    min-height: 700px;
-    max-height: 700px;
+    height: 500px;
+    min-height: 500px;
+    max-height: 500px;
   }
 
   .wcu-content {
     flex-direction: row; /* Keep left/right split on mobile so stairs and details sit side-by-side */
-    gap: 16px;
-    padding: 24px 16px;
+    gap: 12px;
+    padding: 16px 12px;
     align-items: center;
   }
 
   .wcu-left {
-    flex: 0 0 80px; /* Narrow vertical timeline stairs on left */
+    flex: 0 0 54px; /* Narrow vertical timeline stairs on left */
   }
 
   .wcu-staircase-canvas {
-    width: 80px;
-    height: 380px;
+    width: 54px;
+    height: 300px;
     transform: none;
   }
 
@@ -404,14 +404,14 @@
   .stair-pos-3 { bottom: 80%; }
 
   .wcu-stair-block {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%; /* Circle nodes on mobile */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.06);
   }
   
   .wcu-stair-container.active .wcu-stair-block {
-    box-shadow: 0 4px 15px rgba(15, 93, 82, 0.35);
+    box-shadow: 0 4px 12px rgba(15, 93, 82, 0.35);
   }
 
   .wcu-stair-label {
@@ -432,35 +432,69 @@
   .wcu-right {
     flex: 1;
     max-width: none;
-    gap: 12px;
+    gap: 10px;
+  }
+
+  .wcu-step-indicator {
+    gap: 6px;
+  }
+  .wcu-ind-num, .wcu-ind-total {
+    font-size: 0.72rem;
   }
 
   .wcu-step-topic {
-    font-size: 1.45rem;
+    font-size: 1.25rem;
+  }
+
+  .wcu-comparison-stack {
+    gap: 10px;
   }
 
   .wcu-comp-card {
-    padding: 16px;
+    padding: 12px 14px;
+  }
+
+  .wcu-comp-header {
+    margin-bottom: 6px;
+    gap: 8px;
+  }
+
+  .wcu-comp-brand {
+    font-size: 0.58rem;
+  }
+  .wcu-verified-badge {
+    padding: 2px 6px;
+    font-size: 0.52rem;
   }
 
   .wcu-comp-card.card-them .wcu-comp-title,
   .wcu-comp-card.card-us .wcu-comp-title {
-    font-size: 0.95rem;
-    margin-bottom: 4px;
+    font-size: 0.88rem;
+    margin-bottom: 2px;
   }
 
   .wcu-comp-card.card-them .wcu-comp-desc,
   .wcu-comp-card.card-us .wcu-comp-desc {
-    font-size: 0.76rem;
-    line-height: 1.4;
+    font-size: 0.72rem;
+    line-height: 1.35;
   }
 
-  .wcu-comp-header {
-    margin-bottom: 8px;
+  .wcu-comp-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .wcu-step-cta {
+    gap: 4px;
+    margin-top: 2px;
   }
 
   .wcu-action-btn {
-    padding: 12px 20px;
-    font-size: 0.76rem;
+    padding: 10px 18px;
+    font-size: 0.74rem;
+  }
+
+  .wcu-cta-sub {
+    font-size: 0.60rem;
   }
 }

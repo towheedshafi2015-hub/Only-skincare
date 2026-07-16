@@ -65,7 +65,6 @@ export default function WhyChooseUs() {
   // ── Native Web Audio UI Tick Synthesizer with Throttle ──
   const playTick = () => {
     const now = Date.now()
-    // Prevent sound spamming if scrolling extremely fast (150ms throttle)
     if (now - lastSoundTimeRef.current < 150) return
     lastSoundTimeRef.current = now
 
@@ -81,7 +80,7 @@ export default function WhyChooseUs() {
       osc.frequency.setValueAtTime(1100, audioCtx.currentTime)
       osc.frequency.exponentialRampToValueAtTime(350, audioCtx.currentTime + 0.05)
 
-      gain.gain.setValueAtTime(0.025, audioCtx.currentTime) // Muted high-end click
+      gain.gain.setValueAtTime(0.025, audioCtx.currentTime)
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05)
 
       osc.start()
@@ -100,10 +99,10 @@ export default function WhyChooseUs() {
     const wrapperTop = rect.top + window.scrollY
     const viewH = window.innerHeight
 
-    // The scroll range is 200vh total.
-    // Each step gets exactly 50vh scroll distance (200vh / 4)
-    const stepScrollHeight = viewH * 0.5 
-    const targetY = wrapperTop + idx * stepScrollHeight + 20 // 20px buffer to hit center
+    // The scroll range of ScrollTrigger is exactly 200vh.
+    // Landing on the midpoint (idx + 0.5) of each step ensures stable trigger state.
+    const targetProgress = (idx + 0.5) / 4
+    const targetY = wrapperTop + targetProgress * (viewH * 2)
 
     window.scrollTo({
       top: targetY,
@@ -153,7 +152,7 @@ export default function WhyChooseUs() {
 
         <div className="wcu-content container-os">
           
-          {/* LEFT SIDE: Clickable 3D Staircase */}
+          {/* LEFT SIDE: Clickable Staircase */}
           <div className="wcu-left">
             <div className="wcu-staircase-canvas">
               {STEPS.map((step, idx) => {
