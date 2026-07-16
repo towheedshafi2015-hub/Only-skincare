@@ -15,7 +15,7 @@ const STEPS = [
     },
     onlySkincare: {
       title: 'Clinical Bio-Actives',
-      desc: 'High-purity niacinamide, hyaluronic acids, and clean botanical botanical synergy.',
+      desc: 'High-purity niacinamide, hyaluronic acids, and clean botanical synergy.',
     },
   },
   {
@@ -60,9 +60,15 @@ export default function WhyChooseUs() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [activeStep, setActiveStep] = useState(0)
   const prevStepRef = useRef(0)
+  const lastSoundTimeRef = useRef(0)
 
-  // ── Native Web Audio UI Tick Synthesizer ──
+  // ── Native Web Audio UI Tick Synthesizer with Throttle ──
   const playTick = () => {
+    const now = Date.now()
+    // Prevent sound spamming if scrolling extremely fast (150ms throttle)
+    if (now - lastSoundTimeRef.current < 150) return
+    lastSoundTimeRef.current = now
+
     try {
       const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)()
       const osc = audioCtx.createOscillator()
@@ -72,30 +78,48 @@ export default function WhyChooseUs() {
       gain.connect(audioCtx.destination)
 
       osc.type = 'sine'
-      osc.frequency.setValueAtTime(1000, audioCtx.currentTime) // High-pitch tick
-      osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.06)
+      osc.frequency.setValueAtTime(1100, audioCtx.currentTime)
+      osc.frequency.exponentialRampToValueAtTime(350, audioCtx.currentTime + 0.05)
 
-      gain.gain.setValueAtTime(0.03, audioCtx.currentTime) // Minimal volume
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.06)
+      gain.gain.setValueAtTime(0.025, audioCtx.currentTime) // Muted high-end click
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05)
 
       osc.start()
-      osc.stop(audioCtx.currentTime + 0.06)
+      osc.stop(audioCtx.currentTime + 0.05)
     } catch (e) {
-      console.warn('Audio click not supported or blocked by user gesture:', e)
+      console.warn('Audio gesture blocked or unsupported:', e)
     }
+  }
+
+  // ── Scroll to Step on Click ──
+  const handleStepClick = (idx: number) => {
+    const wrapper = containerRef.current
+    if (!wrapper) return
+
+    const rect = wrapper.getBoundingClientRect()
+    const wrapperTop = rect.top + window.scrollY
+    const viewH = window.innerHeight
+
+    // The scroll range is 200vh total.
+    // Each step gets exactly 50vh scroll distance (200vh / 4)
+    const stepScrollHeight = viewH * 0.5 
+    const targetY = wrapperTop + idx * stepScrollHeight + 20 // 20px buffer to hit center
+
+    window.scrollTo({
+      top: targetY,
+      behavior: 'smooth',
+    })
   }
 
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
 
-    // ScrollTrigger to track steps based on scroll progress
     const st = ScrollTrigger.create({
       trigger: el,
       start: 'top top',
       end: '+=200vh',
       onUpdate(self) {
-        // Divide progress (0-1) into 4 discrete step intervals
         const progress = self.progress
         let step = Math.floor(progress * 4)
         if (step > 3) step = 3
@@ -103,7 +127,7 @@ export default function WhyChooseUs() {
         if (step !== prevStepRef.current) {
           setActiveStep(step)
           prevStepRef.current = step
-          playTick() // Play acoustic cue on transition
+          playTick()
         }
       },
     })
@@ -113,40 +137,36 @@ export default function WhyChooseUs() {
     }
   }, [])
 
-  // Animating the content shift inside the details card on active step change
+  // Smoothly animate details panel card transitions
   useEffect(() => {
     gsap.fromTo(
       '.wcu-detail-anim',
-      { opacity: 0, y: 15 },
-      { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out', stagger: 0.08 }
+      { opacity: 0, y: 12 },
+      { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', stagger: 0.06 }
     )
   }, [activeStep])
 
   return (
-    /* 
-      WhyChooseUs container is 300vh total height.
-      CSS Sticky pin handles 100vh lock.
-    */
     <div ref={containerRef} className="wcu-wrapper">
       <div className="wcu-sticky">
-        
-        {/* Editorial Background Noise */}
         <div className="wcu-noise" />
 
         <div className="wcu-content container-os">
           
-          {/* LEFT SIDE: The 3D/Timeline Staircase Graphic */}
+          {/* LEFT SIDE: Clickable 3D Staircase */}
           <div className="wcu-left">
             <div className="wcu-staircase-canvas">
               {STEPS.map((step, idx) => {
                 const isActive = idx === activeStep
                 const isPassed = idx < activeStep
                 return (
-                  <div
+                  <button
                     key={step.number}
                     className={`wcu-stair-container stair-pos-${idx} ${isActive ? 'active' : ''} ${isPassed ? 'passed' : ''}`}
+                    onClick={() => handleStepClick(idx)}
+                    aria-label={`Go to step ${step.number}: ${step.topic}`}
                   >
-                    {/* The 3D Step Block */}
+                    {/* The 3D Step Box */}
                     <div className="wcu-stair-block">
                       <div className="stair-face face-top">
                         <span className="stair-num">{step.number}</span>
@@ -157,19 +177,18 @@ export default function WhyChooseUs() {
 
                     {/* Step Label */}
                     <span className="wcu-stair-label">{step.topic}</span>
-                  </div>
+                  </button>
                 )
               })}
 
-              {/* Glowing climber/indicator line */}
+              {/* Dashed background timeline */}
               <div className="wcu-climb-line" />
             </div>
           </div>
 
-          {/* RIGHT SIDE: The Interactive Comparison Detail Panel */}
+          {/* RIGHT SIDE: Dynamic Comparison Details */}
           <div className="wcu-right">
             
-            {/* Header info */}
             <div className="wcu-detail-anim wcu-step-indicator">
               <span className="wcu-ind-num text-gold">STEP {STEPS[activeStep].number}</span>
               <span className="wcu-ind-divider">/</span>
@@ -180,7 +199,6 @@ export default function WhyChooseUs() {
               {STEPS[activeStep].topic}
             </h2>
 
-            {/* Comparison Cards Stack */}
             <div className="wcu-detail-anim wcu-comparison-stack">
               
               {/* Traditional (Them) */}
@@ -215,7 +233,6 @@ export default function WhyChooseUs() {
 
             </div>
 
-            {/* Brand CTA Button at the base of details */}
             <div className="wcu-detail-anim wcu-step-cta">
               <button 
                 className="btn-primary wcu-action-btn"
