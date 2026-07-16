@@ -1,0 +1,266 @@
+/* ============================================================
+   WHY CHOOSE US — CSS Stylesheets
+   Luxury comparative split system (Us vs. Them)
+   ============================================================ */
+
+.wcu-section {
+  position: relative;
+  background-color: var(--ivory);
+  padding-top: 110px;
+  padding-bottom: 120px;
+  overflow: hidden;
+}
+
+.wcu-header {
+  max-width: 600px;
+  margin: 0 auto 70px auto;
+}
+
+.wcu-eyebrow {
+  margin-bottom: 14px;
+}
+
+.wcu-title {
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(2rem, 3.5vw, 2.85rem);
+  font-weight: 500;
+  color: var(--premium-black);
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+.wcu-title em {
+  font-style: italic;
+  color: var(--forest-green);
+}
+
+.wcu-subtitle {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--soft-gray);
+  line-height: 1.7;
+}
+
+/* ── Comparison Columns ── */
+.wcu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 36px;
+  max-width: 1080px;
+  margin: 0 auto;
+  align-items: stretch;
+}
+
+/* Base Card structure */
+.wcu-card {
+  position: relative;
+  border-radius: var(--radius-card);
+  padding: 48px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* 1. Traditional Card (Them) */
+.wcu-card-them {
+  background: rgba(23, 23, 23, 0.02);
+  border: 1px solid rgba(23, 23, 23, 0.08);
+}
+
+.wcu-card-them .wcu-card-title {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--premium-black);
+  margin-bottom: 4px;
+}
+
+.wcu-card-them .wcu-card-desc {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.85rem;
+  color: var(--soft-gray);
+}
+
+.wcu-card-alert-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(220, 38, 38, 0.06);
+  color: #DC2626;
+  margin-bottom: 18px;
+  border: 1px solid rgba(220, 38, 38, 0.12);
+}
+
+/* 2. Only Skincare Card (Us - The Winner) */
+.wcu-card-us {
+  background: var(--forest-green);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: #fff;
+  box-shadow: 0 35px 80px rgba(15, 93, 82, 0.22);
+}
+
+.wcu-card-us .wcu-card-title {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.wcu-card-us .wcu-card-desc {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.wcu-card-success-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(191, 213, 198, 0.15);
+  color: #BFD5C6;
+  margin-bottom: 18px;
+  border: 1px solid rgba(191, 213, 198, 0.25);
+}
+
+.wcu-glow-tag {
+  position: absolute;
+  top: 48px;
+  right: 44px;
+  background: rgba(212, 176, 106, 0.15);
+  border: 1px solid rgba(212, 176, 106, 0.35);
+  color: var(--gold);
+  font-family: 'Jost', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+
+/* Spotlight background effect on Us Card */
+.wcu-card-spotlight {
+  position: absolute;
+  top: -150px;
+  right: -150px;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(212, 176, 106, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Content Items list ── */
+.wcu-items {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.wcu-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+/* Icons */
+.wcu-icon-bad {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(220, 38, 38, 0.06);
+  color: #DC2626;
+  flex-shrink: 0;
+  border: 1px solid rgba(220, 38, 38, 0.12);
+  margin-top: 3px;
+}
+
+.wcu-icon-good {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(191, 213, 198, 0.15);
+  color: #BFD5C6;
+  flex-shrink: 0;
+  border: 1px solid rgba(191, 213, 198, 0.25);
+  margin-top: 3px;
+}
+
+/* Content block text */
+.wcu-item-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.wcu-item-topic {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--soft-gray);
+}
+
+.wcu-item-value {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--charcoal);
+  line-height: 1.45;
+}
+
+/* ── TABLET BREAKPOINT ── */
+@media (max-width: 1024px) {
+  .wcu-grid {
+    gap: 24px;
+    padding: 0 16px;
+  }
+  .wcu-card {
+    padding: 36px;
+  }
+  .wcu-glow-tag {
+    top: 36px;
+    right: 36px;
+  }
+}
+
+/* ── MOBILE BREAKPOINT ── */
+@media (max-width: 768px) {
+  .wcu-section {
+    padding-top: 68px;
+    padding-bottom: 80px;
+  }
+  .wcu-header {
+    margin-bottom: 44px;
+  }
+  .wcu-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .wcu-glow-tag {
+    position: static;
+    display: inline-flex;
+    margin-top: 10px;
+    width: max-content;
+  }
+  .wcu-card-us .wcu-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
