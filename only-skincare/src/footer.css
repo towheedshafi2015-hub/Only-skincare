@@ -1,0 +1,535 @@
+/* ============================================================
+   ONLY SKINCARE — FOOTER
+   ============================================================ */
+
+.ft-footer {
+  position: relative;
+  background: #030a07;
+  padding-top: 88px;
+  overflow: hidden;
+}
+
+/* ── Background radial ── */
+.ft-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 65% 45% at 50%   0%, rgba(15,93,82,0.22) 0%, transparent 58%),
+    radial-gradient(ellipse 45% 40% at 100% 60%, rgba(212,176,106,0.04) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 40% at   0% 40%, rgba(212,176,106,0.03) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Gold dust particles */
+.ft-dust {
+  position: absolute;
+  top: 0; left: 0;
+  width: 2px; height: 2px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  animation: ft-dust-drift 11s ease-in-out infinite alternate;
+  box-shadow:
+    200px  70px 0 1px rgba(212,176,106,0.22),
+    460px 160px 0 1px rgba(212,176,106,0.14),
+    720px  90px 0 1px rgba(212,176,106,0.18),
+    980px 240px 0 1px rgba(212,176,106,0.09),
+    1220px 130px 0 1px rgba(212,176,106,0.16),
+    100px 300px 0 1px rgba(212,176,106,0.10),
+    640px 350px 0 1px rgba(212,176,106,0.13);
+}
+
+@keyframes ft-dust-drift {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(12px, -18px); }
+}
+
+/* ═══════════════════════════════════════
+   CTA CARD
+═══════════════════════════════════════ */
+.ft-cta-outer {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 72px;
+}
+
+.ft-cta {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 40px 100px rgba(0,0,0,0.55);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* Left side */
+.ft-cta-left {
+  padding: 52px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ft-cta-eyebrow {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.ft-cta-heading {
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.ft-cta-heading em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.ft-cta-sub {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.42);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 380px;
+}
+
+.ft-cta-sub strong { color: rgba(255,255,255,0.78); font-weight: 600; }
+
+/* Form */
+.ft-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 440px;
+}
+
+.ft-input-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  transition: border-color 0.2s, background 0.2s;
+  overflow: hidden;
+}
+
+.ft-input-row:focus-within {
+  border-color: rgba(212,176,106,0.45);
+  background: rgba(255,255,255,0.09);
+}
+
+.ft-input-error { border-color: rgba(251,113,133,0.55) !important; }
+
+.ft-input-icon {
+  position: absolute;
+  left: 15px;
+  color: rgba(255,255,255,0.3);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.ft-email-input {
+  width: 100%;
+  padding: 14px 14px 14px 42px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.85rem;
+  color: #fff;
+}
+
+.ft-email-input::placeholder { color: rgba(255,255,255,0.28); }
+
+.ft-error-msg {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.72rem;
+  color: #FB7185;
+  margin: -4px 0 0;
+  padding-left: 4px;
+}
+
+.ft-cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: var(--gold);
+  border: none;
+  border-radius: 14px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #000;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.22s, transform 0.22s, box-shadow 0.22s;
+}
+
+.ft-cta-btn:hover {
+  background: #e8c978;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(212,176,106,0.3);
+}
+
+.ft-success-msg {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #4CAF7D;
+  padding: 16px 0 4px;
+}
+
+.ft-form-note {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.2);
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+/* Right: product image column */
+.ft-cta-right {
+  position: relative;
+  overflow: hidden;
+}
+
+.ft-cta-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.ft-cta:hover .ft-cta-img { transform: scale(1.04); }
+
+.ft-cta-img-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    rgba(5,12,8,0.65) 0%,
+    transparent 55%
+  );
+}
+
+/* Discount badge */
+.ft-cta-badge {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  box-shadow: 0 4px 20px rgba(212,176,106,0.4);
+  animation: ft-badge-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes ft-badge-pulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(212,176,106,0.35); }
+  50%       { box-shadow: 0 6px 30px rgba(212,176,106,0.6);  }
+}
+
+.ft-badge-pct {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #000;
+  line-height: 1;
+}
+
+.ft-badge-lbl {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.5rem;
+  font-weight: 800;
+  color: #000;
+  letter-spacing: 0.1em;
+}
+
+/* ═══════════════════════════════════════
+   MAIN FOOTER GRID
+═══════════════════════════════════════ */
+.ft-main {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: 48px;
+  padding-bottom: 52px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Brand column */
+.ft-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ft-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none;
+}
+
+.ft-logo-circle {
+  font-size: 1.5rem;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.ft-logo-name {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.12rem;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 0.01em;
+}
+
+.ft-tagline {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.34);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 195px;
+}
+
+.ft-socials {
+  display: flex;
+  gap: 8px;
+}
+
+.ft-social-btn {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.055);
+  border: 1px solid rgba(255,255,255,0.09);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: background 0.22s, border-color 0.22s, color 0.22s, transform 0.22s;
+}
+
+.ft-social-btn:hover {
+  background: rgba(212,176,106,0.1);
+  border-color: rgba(212,176,106,0.3);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+
+/* Nav columns */
+.ft-col { display: flex; flex-direction: column; gap: 16px; }
+
+.ft-col-head {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.88);
+}
+
+.ft-col-list {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.ft-nav-link {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.36);
+  text-decoration: none;
+  transition: color 0.2s, padding-left 0.2s;
+  display: inline-block;
+}
+
+.ft-nav-link:hover {
+  color: rgba(255,255,255,0.82);
+  padding-left: 5px;
+}
+
+/* ═══════════════════════════════════════
+   CERTIFICATIONS STRIP
+═══════════════════════════════════════ */
+.ft-certs-strip {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 26px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  justify-content: center;
+}
+
+.ft-cert-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(255,255,255,0.028);
+  border: 1px solid rgba(255,255,255,0.065);
+  border-radius: 999px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.63rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  transition: background 0.22s, border-color 0.22s, color 0.22s;
+}
+
+.ft-cert-chip:hover {
+  background: rgba(212,176,106,0.07);
+  border-color: rgba(212,176,106,0.2);
+  color: rgba(212,176,106,0.7);
+}
+
+.ft-cert-chip svg { color: var(--gold); opacity: 0.55; }
+
+/* ═══════════════════════════════════════
+   BOTTOM BAR
+═══════════════════════════════════════ */
+.ft-bottom {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 0 28px;
+  flex-wrap: wrap;
+}
+
+.ft-copy {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.22);
+  white-space: nowrap;
+}
+
+.ft-policies {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.ft-policy-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ft-policy-link {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.26);
+  text-decoration: none;
+  transition: color 0.2s;
+  padding: 4px 0;
+}
+
+.ft-policy-link:hover { color: rgba(255,255,255,0.62); }
+
+.ft-sep {
+  color: rgba(255,255,255,0.12);
+  font-size: 0.55rem;
+  margin: 0 6px;
+}
+
+.ft-payments {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.ft-pay-chip {
+  padding: 4px 9px;
+  background: rgba(255,255,255,0.044);
+  border: 1px solid rgba(255,255,255,0.075);
+  border-radius: 6px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 960px) {
+  .ft-cta {
+    grid-template-columns: 1fr;
+  }
+  .ft-cta-right {
+    height: 230px;
+  }
+  .ft-cta-img-veil {
+    background: linear-gradient(
+      180deg,
+      rgba(5,12,8,0.65) 0%,
+      transparent 60%
+    );
+  }
+  .ft-main {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ft-brand {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .ft-footer { padding-top: 56px; }
+  .ft-cta-left { padding: 36px 28px; }
+  .ft-main { grid-template-columns: repeat(2, 1fr); }
+  .ft-brand {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .ft-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .ft-payments { justify-content: flex-start; }
+}

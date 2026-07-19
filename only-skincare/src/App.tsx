@@ -5,6 +5,12 @@ import WhyChooseUs from './components/WhyChooseUs'
 import BrandStory from './components/BrandStory'
 import ProductBenefits from './components/ProductBenefits'
 import CustomerResults from './components/CustomerResults'
+import ShoppableReels from './components/ShoppableReels'
+import TrustAuthority from './components/TrustAuthority'
+import HowItWorks from './components/HowItWorks'
+import FaqGuarantee from './components/FaqGuarantee'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 import CartDrawer from './components/CartDrawer'
 import { CartProvider } from './context/CartContext'
 
@@ -12,6 +18,9 @@ export default function App() {
   return (
     <CartProvider>
       <div className="app">
+        
+        {/* ── Navbar & Announcement Bar ── */}
+        <Navbar />
         
         {/* ── SECTION 1: Hero ── */}
         <HeroSection />
@@ -33,6 +42,21 @@ export default function App() {
 
         {/* ── SECTION 7: Customer Results ── */}
         <CustomerResults />
+
+        {/* ── SECTION 8: Shoppable Reels ── */}
+        <ShoppableReels />
+
+        {/* ── SECTION 9: Trust & Authority ── */}
+        <TrustAuthority />
+
+        {/* ── SECTION 10: How It Works ── */}
+        <HowItWorks />
+
+        {/* ── SECTION 11: FAQ + Guarantee ── */}
+        <FaqGuarantee />
+
+        {/* ── FOOTER ── */}
+        <Footer />
 
         {/* ── Global Cart Slide-in Panel ── */}
         <CartDrawer />

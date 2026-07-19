@@ -1,0 +1,574 @@
+/* ============================================================
+   ONLY SKINCARE — HOW IT WORKS  (The Ritual)
+   ============================================================ */
+
+.hiw-section {
+  position: relative;
+  background: #060e0b;
+  padding: 96px 0 88px;
+  overflow: hidden;
+}
+
+/* ── Backgrounds ── */
+.hiw-bg-base {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 75% 45% at 50% 0%,    rgba(15,93,82,0.24) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 50% at 100% 50%,  rgba(212,176,106,0.04) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Reactive color glow — shifts with active step */
+.hiw-bg-glow {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60%;
+  background: radial-gradient(
+    ellipse 70% 80% at 50% 110%,
+    var(--step-color, #4CAF7D) 0%,
+    transparent 65%
+  );
+  opacity: 0.07;
+  transition: background 0.65s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Top: header + toggle ── */
+.hiw-top {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 52px;
+  flex-wrap: wrap;
+}
+
+.hiw-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hiw-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.hiw-heading {
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 400;
+  color: #fff;
+  letter-spacing: -0.02em;
+  line-height: 1.0;
+  margin: 0;
+}
+
+.hiw-sub {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.38);
+  margin: 0;
+  max-width: 340px;
+  line-height: 1.6;
+}
+
+/* AM / PM Toggle */
+.hiw-toggle {
+  display: flex;
+  gap: 4px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 999px;
+  padding: 4px;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.hiw-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 20px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.42);
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+
+.hiw-toggle-active {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: #fff;
+}
+
+/* ── Step connector row ── */
+.hiw-connector-area {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 56px;
+}
+
+.hiw-steps-row {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* Background track line */
+.hiw-track {
+  position: absolute;
+  top: 21px; /* center of the 42px circle */
+  left: 21px;
+  right: 21px;
+  height: 2px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 999px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.hiw-track-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--line-color, #D4B06A),
+    color-mix(in srgb, var(--line-color, #D4B06A) 55%, transparent)
+  );
+  transform-origin: left;
+  border-radius: 999px;
+  transition: transform 0.55s cubic-bezier(0.34, 1.1, 0.64, 1);
+}
+
+/* Step button */
+.hiw-step-btn {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex: 1;
+}
+
+/* Circle */
+.hiw-step-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.35);
+  transition:
+    background    0.38s ease,
+    border-color  0.38s ease,
+    color         0.38s ease,
+    box-shadow    0.38s ease,
+    transform     0.38s cubic-bezier(0.34, 1.28, 0.64, 1);
+}
+
+.hiw-step-btn:hover .hiw-step-circle {
+  border-color: rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.7);
+}
+
+.hiw-step-active .hiw-step-circle {
+  background: var(--step-color, #D4B06A);
+  border-color: var(--step-color, #D4B06A);
+  color: #000;
+  transform: scale(1.12);
+  box-shadow:
+    0 0 0 5px color-mix(in srgb, var(--step-color, #D4B06A) 18%, transparent),
+    0 0 22px  var(--step-color, #D4B06A);
+}
+
+.hiw-step-done .hiw-step-circle {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.85);
+}
+
+.hiw-step-num-txt {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+/* Label */
+.hiw-step-lbl {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.22);
+  transition: color 0.35s;
+  white-space: nowrap;
+}
+
+.hiw-step-active .hiw-step-lbl { color: #fff; }
+.hiw-step-done   .hiw-step-lbl { color: rgba(255,255,255,0.52); }
+
+/* ── Main area ── */
+.hiw-main {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 55% 1fr;
+  gap: 52px;
+  align-items: start;
+}
+
+/* ── Image frame ── */
+.hiw-img-wrap { position: relative; }
+
+.hiw-img-frame {
+  position: relative;
+  border-radius: 26px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.07);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  transition: border-color 0.5s, box-shadow 0.5s;
+}
+
+.hiw-img-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
+  border: 1.5px solid var(--accent, #D4B06A);
+  opacity: 0.2;
+  pointer-events: none;
+  transition: opacity 0.5s;
+}
+
+.hiw-img-frame:hover::after { opacity: 0.45; }
+
+.hiw-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  animation: hiw-img-enter 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes hiw-img-enter {
+  from { opacity: 0; transform: scale(1.05); }
+  to   { opacity: 1; transform: scale(1);    }
+}
+
+.hiw-img-grad {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,0.0)  40%,
+    rgba(0,0,0,0.72) 100%
+  );
+  pointer-events: none;
+}
+
+/* Giant watermark number */
+.hiw-img-watermark {
+  position: absolute;
+  bottom: -14px;
+  right: 12px;
+  font-family: 'Bodoni Moda', serif;
+  font-size: 9rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.055);
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  transition: color 0.5s;
+}
+
+/* Time chip */
+.hiw-time-chip {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  background: rgba(0,0,0,0.58);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 999px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Mode chip */
+.hiw-mode-chip {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 999px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ── Detail panel ── */
+.hiw-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding-top: 6px;
+  animation: hiw-detail-enter 0.45s cubic-bezier(0.34, 1.1, 0.64, 1) both;
+}
+
+@keyframes hiw-detail-enter {
+  from { opacity: 0; transform: translateX(18px); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+
+/* Meta row */
+.hiw-detail-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.hiw-detail-step-num {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 3rem;
+  font-weight: 400;
+  color: var(--accent, #D4B06A);
+  line-height: 1;
+  opacity: 0.55;
+}
+
+.hiw-detail-meta-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.hiw-detail-action {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent, #D4B06A);
+}
+
+.hiw-detail-product {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.38);
+  letter-spacing: 0.02em;
+}
+
+/* Step name heading */
+.hiw-detail-name {
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(2.6rem, 4.5vw, 3.8rem);
+  font-weight: 400;
+  color: #fff;
+  letter-spacing: -0.02em;
+  line-height: 1.0;
+  margin: 0;
+}
+
+/* Divider */
+.hiw-sep {
+  height: 1px;
+  background: rgba(255,255,255,0.07);
+}
+
+/* Benefits list */
+.hiw-benefits {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.hiw-benefit {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.72);
+  /* staggered reveal */
+  opacity: 0;
+  transform: translateX(-12px);
+  animation: hiw-benefit-in 0.4s ease calc(var(--bd, 0s)) forwards;
+}
+
+@keyframes hiw-benefit-in {
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.hiw-benefit-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--accent, #D4B06A) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent, #D4B06A) 28%, transparent);
+  color: var(--accent, #D4B06A);
+}
+
+/* Ingredient pill */
+.hiw-ingredient {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  background: color-mix(in srgb, var(--accent, #D4B06A) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent, #D4B06A) 22%, transparent);
+  border-radius: 999px;
+  align-self: flex-start;
+}
+
+.hiw-ing-pre {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+
+.hiw-ing-name {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent, #D4B06A);
+}
+
+/* Navigation row */
+.hiw-nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 4px;
+}
+
+.hiw-nav-prev,
+.hiw-nav-next {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: transparent;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.4);
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.hiw-nav-prev:hover { color: #fff; border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.06); }
+
+.hiw-nav-next {
+  color: var(--accent, #D4B06A);
+  border-color: color-mix(in srgb, var(--accent, #D4B06A) 30%, transparent);
+}
+
+.hiw-nav-next:hover {
+  background: color-mix(in srgb, var(--accent, #D4B06A) 10%, transparent);
+  border-color: var(--accent, #D4B06A);
+}
+
+/* Dots */
+.hiw-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+}
+
+.hiw-dot {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  transition: background 0.3s, width 0.3s, transform 0.3s;
+}
+
+.hiw-dot-active {
+  width: 20px;
+  border-radius: 999px;
+  transform: none;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .hiw-main {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .hiw-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .hiw-section { padding: 64px 0 56px; }
+
+  .hiw-step-lbl { display: none; }
+
+  .hiw-detail-name { font-size: 2.2rem; }
+
+  .hiw-img { aspect-ratio: 3/2; }
+}

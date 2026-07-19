@@ -1,0 +1,535 @@
+/* ============================================================
+   ONLY SKINCARE — TRUST & AUTHORITY  (The Evidence Room)
+   ============================================================ */
+
+.ta-section {
+  position: relative;
+  background: #050c0a;
+  padding: 100px 0 88px;
+  overflow: hidden;
+}
+
+/* ── Layered background ── */
+.ta-bg-radial {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(15,93,82,0.28) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at  0% 70%,  rgba(212,176,106,0.05) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 100% 30%, rgba(212,176,106,0.05) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Subtle grid lines */
+.ta-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+  background-size: 72px 72px;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 0%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 0%, transparent 100%);
+}
+
+/* Floating gold dust particles via box-shadow trick */
+.ta-dust {
+  position: absolute;
+  top: 0; left: 0;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: transparent;
+  pointer-events: none;
+  z-index: 0;
+  animation: ta-drift-a 9s ease-in-out infinite alternate;
+  box-shadow:
+    160px  90px 0 1px rgba(212,176,106,0.28),
+    380px 200px 0 1px rgba(212,176,106,0.16),
+    620px 140px 0 1px rgba(212,176,106,0.22),
+    870px 310px 0 1px rgba(212,176,106,0.12),
+    1120px 80px 0 1px rgba(212,176,106,0.20),
+    240px 400px 0 1px rgba(212,176,106,0.09),
+    720px 450px 0 1px rgba(212,176,106,0.17),
+    1250px 260px 0 1px rgba(212,176,106,0.11),
+    50px  330px 0 1px rgba(212,176,106,0.14),
+    990px 370px 0 1px rgba(212,176,106,0.19);
+}
+
+.ta-dust::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: transparent;
+  animation: ta-drift-b 12s ease-in-out infinite alternate;
+  box-shadow:
+    80px  250px 0 1px rgba(212,176,106,0.13),
+    310px  50px 0 1px rgba(212,176,106,0.21),
+    530px 360px 0 1px rgba(212,176,106,0.09),
+    760px  70px 0 1px rgba(212,176,106,0.26),
+    1010px 210px 0 1px rgba(212,176,106,0.14),
+    1180px 410px 0 1px rgba(212,176,106,0.18);
+}
+
+@keyframes ta-drift-a {
+  0%   { transform: translate(0,     0); }
+  100% { transform: translate(12px, -20px); }
+}
+@keyframes ta-drift-b {
+  0%   { transform: translate(0,    0); }
+  100% { transform: translate(-8px, 16px); }
+}
+
+/* ── Header ── */
+.ta-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  margin-bottom: 56px;
+}
+
+.ta-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.ta-heading {
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(2.2rem, 5.5vw, 4rem);
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.ta-heading em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.ta-sub {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.38);
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+/* ── Stats bar ── */
+.ta-stats {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 22px;
+  overflow: hidden;
+  margin-bottom: 80px;
+}
+
+.ta-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 30px 20px;
+  background: rgba(255,255,255,0.02);
+  text-align: center;
+  cursor: default;
+  transition: background 0.3s ease;
+}
+
+.ta-stat:hover {
+  background: rgba(212,176,106,0.05);
+}
+
+.ta-stat-value {
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(1.7rem, 3.5vw, 2.8rem);
+  font-weight: 500;
+  color: #fff;
+  line-height: 1;
+}
+
+.ta-stat-label {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.32);
+}
+
+/* ── Certificate showcase ── */
+.ta-certs {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 80px;
+}
+
+/* Outer wrapper: carries the scroll-reveal + base tilt */
+.ta-cert-outer {
+  position: relative;
+  flex-shrink: 0;
+  width: 310px;
+  opacity: 0;
+  transform: translateY(50px) rotate(var(--base-tilt, 0deg));
+  transition:
+    opacity   0.7s ease  calc(var(--cert-delay, 0s)),
+    transform 0.7s cubic-bezier(0.34, 1.28, 0.64, 1) calc(var(--cert-delay, 0s));
+}
+
+.ta-visible .ta-cert-outer {
+  opacity: 1;
+  transform: translateY(0) rotate(var(--base-tilt, 0deg));
+}
+
+/* Center cert slightly larger */
+.ta-cert-outer:nth-child(2) {
+  width: 330px;
+  margin-bottom: 28px;
+}
+
+/* 3D card */
+.ta-cert-card {
+  position: relative;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: default;
+  transform-style: preserve-3d;
+  transform:
+    perspective(900px)
+    rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg));
+  transition: transform 0.1s ease, box-shadow 0.35s ease;
+  box-shadow:
+    0 24px 60px rgba(0,0,0,0.65),
+    0 0 0 1px rgba(255,255,255,0.07);
+}
+
+.ta-cert-card:hover {
+  box-shadow:
+    0 36px 80px rgba(0,0,0,0.75),
+    0 0 0 1px rgba(212,176,106,0.3),
+    0 0 80px var(--glow-color, rgba(212,176,106,0.25));
+}
+
+.ta-cert-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background: #0b1c18; /* fills the contain letterbox with brand teal */
+  padding: 12px;       /* breathes the certificate inside the card */
+}
+
+/* Holographic sheen */
+.ta-cert-sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.14)  0%,
+    rgba(255,255,255,0.0)   38%,
+    rgba(255,255,255,0.0)   62%,
+    rgba(255,255,255,0.06) 100%
+  );
+  pointer-events: none;
+  transition: opacity 0.35s;
+}
+
+.ta-cert-card:hover .ta-cert-sheen {
+  opacity: 0.6;
+  background: linear-gradient(
+    135deg,
+    rgba(212,176,106,0.18) 0%,
+    rgba(255,255,255,0.0)  50%,
+    rgba(212,176,106,0.08) 100%
+  );
+}
+
+/* Bottom label */
+.ta-cert-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 24px 16px 18px;
+  background: linear-gradient(0deg, rgba(0,0,0,0.88) 0%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ta-cert-label {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.ta-cert-meta {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* VERIFIED stamp — hidden until section visible */
+.ta-stamp {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  border: 2px dashed rgba(212,176,106,0.65);
+  background: rgba(3,10,8,0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: var(--gold);
+  /* Reveal via transition when .ta-visible added */
+  opacity: 0;
+  transform: scale(0.3) rotate(35deg);
+  transition:
+    opacity   0.45s ease  var(--stamp-delay, 0.5s),
+    transform 0.55s cubic-bezier(0.34,1.28,0.64,1) var(--stamp-delay, 0.5s);
+}
+
+.ta-visible .ta-stamp {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.ta-stamp span {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.4rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Glow blob beneath card */
+.ta-cert-glow {
+  position: absolute;
+  bottom: -28px; left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 56px;
+  filter: blur(22px);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.ta-cert-outer:hover .ta-cert-glow {
+  opacity: 0.85;
+}
+
+/* ── Certification badge grid ── */
+.ta-badges-section {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  margin-bottom: 72px;
+}
+
+.ta-badges-title {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+  margin: 0;
+}
+
+.ta-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.ta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 999px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.68);
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: default;
+  /* Reveal animation */
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity      0.45s ease calc(var(--badge-delay, 0s)),
+    transform    0.45s ease calc(var(--badge-delay, 0s)),
+    background   0.25s ease,
+    border-color 0.25s ease,
+    color        0.25s ease;
+}
+
+.ta-visible .ta-badge {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ta-badge:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.18);
+  color: #fff;
+}
+
+/* ── Media mentions ── */
+.ta-media-section {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.ta-media-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.ta-media-eyebrow {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+  white-space: nowrap;
+}
+
+.ta-media-rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent);
+}
+
+.ta-media-frame {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.07);
+  box-shadow: 0 32px 90px rgba(0,0,0,0.55);
+  transition: box-shadow 0.4s ease;
+}
+
+.ta-media-frame:hover {
+  box-shadow:
+    0 40px 100px rgba(0,0,0,0.65),
+    0 0 0 1px rgba(212,176,106,0.18);
+}
+
+.ta-media-img {
+  width: 100%;
+  display: block;
+  opacity: 0.88;
+  transition: opacity 0.4s ease, transform 0.6s ease;
+}
+
+.ta-media-frame:hover .ta-media-img {
+  opacity: 1;
+  transform: scale(1.012);
+}
+
+.ta-media-vignette {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent      55%,
+    rgba(5,12,10,0.65) 100%
+  );
+  pointer-events: none;
+}
+
+@media (max-width: 1100px) {
+  .ta-cert-outer { width: 260px; }
+  .ta-cert-outer:nth-child(2) { width: 280px; }
+}
+
+@media (max-width: 960px) {
+  .ta-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ta-certs {
+    gap: 14px;
+  }
+
+  .ta-cert-outer { width: 210px; }
+  .ta-cert-outer:nth-child(2) {
+    width: 230px;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .ta-section {
+    padding: 68px 0 60px;
+  }
+
+  .ta-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Stack certs vertically on mobile */
+  .ta-certs {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .ta-cert-outer,
+  .ta-cert-outer:nth-child(2) {
+    width: min(280px, 85vw);
+    margin-bottom: 0;
+    --base-tilt: 0deg; /* no tilt on mobile */
+  }
+}
