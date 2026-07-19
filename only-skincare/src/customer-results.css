@@ -1,0 +1,369 @@
+/* ============================================================
+   ONLY SKINCARE — CUSTOMER RESULTS (Dual-Direction Marquee)
+   ============================================================ */
+
+.cr-section {
+  position: relative;
+  background: #060f0d;
+  overflow: hidden;
+  padding: 80px 0 72px;
+}
+
+/* ── Background ── */
+.cr-bg-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 20%, rgba(15,93,82,0.35) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 50% at 10% 80%, rgba(212,176,106,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 90% 80%, rgba(212,176,106,0.05) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cr-bg-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Header ── */
+.cr-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.cr-eyebrow-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cr-gold-icon {
+  color: var(--gold);
+  opacity: 0.7;
+}
+
+.cr-heading {
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 400;
+  color: #fff;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.cr-heading em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.cr-sub {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.38);
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+/* ── Stats bar ── */
+.cr-stats {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 48px;
+}
+
+.cr-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 22px 16px;
+  background: rgba(255,255,255,0.025);
+  text-align: center;
+  transition: background 0.25s;
+}
+
+.cr-stat:hover {
+  background: rgba(255,255,255,0.055);
+}
+
+.cr-stat-icon-wrap {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(212,176,106,0.12);
+  border: 1px solid rgba(212,176,106,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+
+.cr-stat-value {
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(1.25rem, 2.5vw, 1.7rem);
+  font-weight: 500;
+  color: #fff;
+  line-height: 1;
+}
+
+.cr-stat-label {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.38);
+}
+
+/* ── Marquee area ── */
+.cr-marquee-area {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+}
+
+/* Fade masks — left & right */
+.cr-fade-left,
+.cr-fade-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(60px, 8vw, 140px);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.cr-fade-left  {
+  left: 0;
+  background: linear-gradient(90deg, #060f0d 0%, transparent 100%);
+}
+
+.cr-fade-right {
+  right: 0;
+  background: linear-gradient(270deg, #060f0d 0%, transparent 100%);
+}
+
+/* Each row */
+.cr-row {
+  overflow: hidden;
+}
+
+.cr-row:hover .cr-track {
+  animation-play-state: paused;
+}
+
+/* Track — the actual scrolling strip */
+.cr-track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  will-change: transform;
+}
+
+/* Row 1: scrolls left */
+.cr-track-left {
+  animation: cr-scroll-left 38s linear infinite;
+}
+
+/* Row 2: scrolls right */
+.cr-track-right {
+  animation: cr-scroll-right 42s linear infinite;
+}
+
+@keyframes cr-scroll-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes cr-scroll-right {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+/* ── Card ── */
+.cr-card {
+  flex-shrink: 0;
+  width: 320px;
+  padding: 22px 22px 20px;
+  background: rgba(255,255,255,0.044);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: default;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+}
+
+.cr-card:hover,
+.cr-card:focus-visible {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(212,176,106,0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(212,176,106,0.12);
+}
+
+/* Card head */
+.cr-card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Avatar */
+.cr-avatar {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.03em;
+  border: 2px solid rgba(255,255,255,0.2);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+}
+
+/* Name block */
+.cr-name-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.cr-name {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cr-check {
+  color: #60A5FA;
+  flex-shrink: 0;
+}
+
+.cr-meta {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.38);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Tag */
+.cr-tag {
+  flex-shrink: 0;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(212,176,106,0.1);
+  border: 1px solid rgba(212,176,106,0.2);
+  border-radius: 999px;
+  padding: 3px 9px;
+  white-space: nowrap;
+}
+
+/* Stars */
+.cr-stars {
+  display: flex;
+  gap: 3px;
+  color: #F6C453;
+}
+
+/* Quote */
+.cr-quote {
+  position: relative;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.84rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.65;
+  margin: 0;
+  padding-top: 4px;
+}
+
+.cr-q-glyph {
+  position: absolute;
+  top: -10px;
+  left: -2px;
+  font-family: 'Bodoni Moda', serif;
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--gold);
+  opacity: 0.18;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Responsive: Tablet ── */
+@media (max-width: 900px) {
+  .cr-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cr-card {
+    width: 280px;
+  }
+}
+
+/* ── Responsive: Mobile ── */
+@media (max-width: 600px) {
+  .cr-section {
+    padding: 60px 0 56px;
+  }
+
+  .cr-stats {
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 36px;
+  }
+
+  .cr-card {
+    width: 250px;
+    padding: 18px 18px 16px;
+  }
+
+  /* On mobile show only one row */
+  .cr-row-2 {
+    display: none;
+  }
+}

@@ -2,6 +2,9 @@ import HeroSection from './components/HeroSection'
 import SocialProofStrip from './components/SocialProofStrip'
 import FeaturedCollection from './components/FeaturedCollection'
 import WhyChooseUs from './components/WhyChooseUs'
+import BrandStory from './components/BrandStory'
+import ProductBenefits from './components/ProductBenefits'
+import CustomerResults from './components/CustomerResults'
 import CartDrawer from './components/CartDrawer'
 import { CartProvider } from './context/CartContext'
 
@@ -21,6 +24,15 @@ export default function App() {
 
         {/* ── SECTION 4: Why Choose Us (Comparison) ── */}
         <WhyChooseUs />
+
+        {/* ── SECTION 5: Brand Story ── */}
+        <BrandStory />
+
+        {/* ── SECTION 6: Product Benefits ── */}
+        <ProductBenefits />
+
+        {/* ── SECTION 7: Customer Results ── */}
+        <CustomerResults />
 
         {/* ── Global Cart Slide-in Panel ── */}
         <CartDrawer />

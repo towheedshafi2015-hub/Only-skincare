@@ -1,535 +1,443 @@
 /* ============================================================
-   WHY CHOOSE US — Experimental Staircase Layout
-   Interactive 3D-Look Steps | Pinned Scroll | Audio Cues
+   WHY CHOOSE US — Modern Luxury Editorial Layout
+   Direct replica layout of Screen 1 with premium styling tokens
    ============================================================ */
 
-/* ── Outer wrapper (Total scroll length) ─────────────────── */
-.wcu-wrapper {
+.wcu-section-replica {
   position: relative;
-  height: 300vh; /* 100vh visible + 200vh scroll transitions */
+  background-color: var(--warm-white);
+  padding-top: 80px;
+  padding-bottom: 80px;
   width: 100%;
-}
-
-/* ── Sticky viewport frame ────────────────────────────────── */
-.wcu-sticky {
-  position: sticky;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background-color: #FAF8F5; /* luxury warm ivory */
-  z-index: 5;
-}
-
-/* Texture overlay */
-.wcu-noise {
-  position: absolute;
-  inset: 0;
-  opacity: 0.025;
-  mix-blend-mode: overlay;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  z-index: 1;
-}
-
-/* Content layout */
-.wcu-content {
-  position: absolute;
-  inset: 0;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: clamp(32px, 5vw, 100px);
-  z-index: 2;
-}
-
-/* ── LEFT SIDE: Staircase Canvas ──────────────────────────── */
-.wcu-left {
-  flex: 1;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  position: relative;
-}
-
-.wcu-staircase-canvas {
-  width: 480px;
-  height: 480px;
-  position: relative;
-  transform: rotateX(10deg); /* subtle overall perspective tilt */
-  transform-style: preserve-3d;
-}
-
-/* Stair positions (Stair step container) */
-.wcu-stair-container {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 10;
-  /* Reset default button appearance */
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  outline: none;
-  -webkit-appearance: none;
-}
-
-/* Stair block positioning coordinates */
-.stair-pos-0 { left: 4%;  bottom: 8%; }
-.stair-pos-1 { left: 24%; bottom: 28%; }
-.stair-pos-2 { left: 44%; bottom: 48%; }
-.stair-pos-3 { left: 64%; bottom: 68%; }
-
-/* The 3D Platform Box */
-.wcu-stair-block {
-  position: relative;
-  width: 130px;
-  height: 24px;
-  background: #ffffff;
-  border-radius: 6px;
-  box-shadow: 
-    0 8px 0 #E2DDD5, /* 3D depth extrusion */
-    0 12px 24px rgba(0, 0, 0, 0.08);
-  transition: background 400ms ease, box-shadow 400ms ease, transform 400ms ease;
-  cursor: pointer;
-}
-
-.stair-num {
-  font-family: 'Jost', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--soft-gray);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: color 400ms ease;
-}
-
-/* Stair Label */
-.wcu-stair-label {
-  font-family: 'Jost', sans-serif;
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--soft-gray);
-  margin-top: 18px;
-  text-align: center;
-  transition: color 400ms ease, transform 400ms ease;
-  white-space: nowrap;
-}
-
-/* ACTIVE STATE STYLING */
-.wcu-stair-container.active {
-}
-
-.wcu-stair-container.active .wcu-stair-block {
-  background: var(--forest-green);
-  box-shadow: 
-    0 8px 0 var(--deep-emerald),
-    0 16px 35px rgba(15, 93, 82, 0.28);
-}
-
-.wcu-stair-container.active .stair-num {
-  color: #ffffff;
-}
-
-.wcu-stair-container.active .wcu-stair-label {
-  color: var(--forest-green);
-  transform: scale(1.05);
-}
-
-/* PASSED STATE STYLING */
-.wcu-stair-container.passed .wcu-stair-block {
-  background: var(--mint-mist);
-  box-shadow: 
-    0 8px 0 #D1E4DB,
-    0 10px 20px rgba(0, 0, 0, 0.05);
-}
-.wcu-stair-container.passed .stair-num {
-  color: var(--forest-green);
-}
-
-/* 3D Climber indicator */
-.wcu-climber {
-  position: absolute;
-  left: 4%;
-  bottom: 8%;
-  width: 130px;
-  height: 24px;
-  background: var(--forest-green);
-  border: 1px solid var(--gold);
-  border-radius: 6px;
-  box-shadow: 
-    0 8px 0 var(--deep-emerald),
-    0 0 20px rgba(212, 176, 106, 0.45);
-  z-index: 12;
-  pointer-events: none;
-}
-
-.climber-glow {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(circle at center, rgba(255,255,255,0.45) 0%, transparent 80%);
-  opacity: 0.8;
-}
-
-/* Dashed alignment climber line */
-.wcu-climb-line {
-  position: absolute;
-  left: 17%;
-  bottom: 20%;
-  width: 58%;
-  height: 52%;
-  border-left: 2px dashed rgba(15, 93, 82, 0.15);
-  border-bottom: 2px dashed rgba(15, 93, 82, 0.15);
-  z-index: 2;
-  pointer-events: none;
-  transform: skewX(-6deg);
-}
-
-/* ── RIGHT SIDE: Comparison Detail Panel ──────────────────── */
-.wcu-right {
-  flex: 1;
-  max-width: 500px;
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  z-index: 15;
-}
-
-/* Step Indicator */
-.wcu-step-indicator {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.wcu-ind-num {
-  font-family: 'Jost', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-}
-.wcu-ind-divider {
-  color: var(--light-gray);
-  font-size: 0.8rem;
-}
-.wcu-ind-total {
-  font-family: 'Jost', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--soft-gray);
-}
-
-/* Step Topic */
-.wcu-step-topic {
-  font-family: 'Bodoni Moda', serif;
-  font-size: clamp(1.8rem, 3vw, 2.4rem);
-  font-weight: 500;
-  color: var(--premium-black);
-  line-height: 1.2;
-}
-
-/* Comparison Stack */
-.wcu-comparison-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
-}
-
-.wcu-comp-card {
-  position: relative;
-  border-radius: 20px;
-  padding: 24px;
-  overflow: hidden;
   box-sizing: border-box;
 }
 
-/* Traditional (Them) Card */
-.wcu-comp-card.card-them {
-  background: rgba(23, 23, 23, 0.02);
+.wcu-container {
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* ── Header block ── */
+.wcu-header-new {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.wcu-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(23, 23, 23, 0.03);
+  border: 1px solid rgba(23, 23, 23, 0.08);
+  border-radius: 999px;
+  padding: 5px 14px;
+}
+
+.wcu-badge-text {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--soft-gray);
+}
+
+.wcu-title-new {
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(2rem, 3.5vw, 2.6rem);
+  font-weight: 500;
+  color: var(--premium-black);
+  line-height: 1.15;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.wcu-subtitle-new {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 300;
+  color: var(--soft-gray);
+  line-height: 1.6;
+  max-width: 500px;
+  margin: 0;
+}
+
+/* ── Comparison Cards Grid ── */
+.wcu-grid-new {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+}
+
+.wcu-card-item {
+  border-radius: 18px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  box-sizing: border-box;
+}
+
+/* 1. Traditional Card */
+.wcu-card-item.card-traditional {
+  background-color: #ffffff;
   border: 1px solid rgba(23, 23, 23, 0.08);
 }
-.wcu-comp-card.card-them .wcu-comp-title {
+
+.wcu-avatar-bg {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(23, 23, 23, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wcu-card-header-new {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.wcu-card-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.wcu-card-title-main {
   font-family: 'Bodoni Moda', serif;
   font-size: 1.15rem;
   font-weight: 500;
   color: var(--premium-black);
-  margin-bottom: 6px;
+  margin: 0;
 }
-.wcu-comp-card.card-them .wcu-comp-desc {
+
+.wcu-card-desc-sub {
   font-family: 'Jost', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.72rem;
   color: var(--soft-gray);
-  line-height: 1.6;
 }
 
-/* Only Skincare (Us) Card */
-.wcu-comp-card.card-us {
-  background: var(--forest-green);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  box-shadow: 0 20px 45px rgba(15, 93, 82, 0.16);
-}
-.wcu-comp-card.card-us .wcu-comp-title {
-  font-family: 'Bodoni Moda', serif;
-  font-size: 1.18rem;
-  font-weight: 500;
-  margin-bottom: 6px;
-}
-.wcu-comp-card.card-us .wcu-comp-desc {
-  font-family: 'Jost', sans-serif;
-  font-size: 0.85rem;
-  line-height: 1.6;
+.wcu-card-content-new {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-/* Header Inside Comp Cards */
-.wcu-comp-header {
+.wcu-card-bullet {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 14px;
 }
 
-.wcu-comp-brand {
-  font-family: 'Jost', sans-serif;
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: var(--soft-gray);
-}
-
-.wcu-verified-badge {
-  margin-left: auto;
-  background: rgba(212, 176, 106, 0.15);
-  border: 1px solid rgba(212, 176, 106, 0.30);
-  color: var(--gold);
-  font-family: 'Jost', sans-serif;
-  font-size: 0.58rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  border-radius: 999px;
-}
-
-.wcu-comp-icon {
+.wcu-bullet-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon-red {
+  background-color: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.15);
+}
+
+.wcu-bullet-text {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.8rem;
+}
+
+.wcu-bullet-text.strike-through {
+  text-decoration: line-through;
+  text-decoration-color: rgba(23, 23, 23, 0.2);
+}
+
+/* 2. Only Skincare Card (Us) */
+.wcu-card-item.card-onlyskincare {
+  position: relative;
+  background-color: var(--forest-green);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 16px 36px rgba(15, 93, 82, 0.15);
+}
+
+.premium-gold-bg {
+  background-color: rgba(212, 176, 106, 0.25);
+  border: 1px solid rgba(212, 176, 106, 0.4);
+}
+
+.wcu-recommended-tag {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background-color: rgba(212, 176, 106, 0.18);
+  border: 1px solid rgba(212, 176, 106, 0.35);
+  color: var(--gold);
+  font-family: 'Jost', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.premium-icon-check {
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* ── 98% Stats Banner Card ── */
+.wcu-banner-card {
+  position: relative;
+  height: 150px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.04);
+}
+
+.wcu-banner-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wcu-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(15, 93, 82, 0.92) 0%, rgba(15, 93, 82, 0.3) 100%);
+  z-index: 1;
+}
+
+.wcu-banner-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px;
+  color: #ffffff;
+  box-sizing: border-box;
+}
+
+.wcu-banner-stats {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.wcu-stats-num {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 2.3rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.wcu-stats-text {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.wcu-banner-social {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.wcu-social-avatars {
+  display: flex;
+  margin-left: 2px;
+}
+
+.wcu-avatar {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  flex-shrink: 0;
-}
-.icon-bad {
-  background: rgba(220, 38, 38, 0.08);
-  color: #DC2626;
-  border: 1px solid rgba(220, 38, 38, 0.15);
-}
-.icon-good {
-  background: rgba(191, 213, 198, 0.20);
-  color: #BFD5C6;
-  border: 1px solid rgba(191, 213, 198, 0.30);
+  border: 1.5px solid #ffffff;
+  margin-left: -6px;
+  background-size: cover;
 }
 
-.wcu-card-glow {
-  position: absolute;
-  top: -80px;
-  right: -80px;
-  width: 180px;
-  height: 180px;
-  background: radial-gradient(circle, rgba(212, 176, 106, 0.15) 0%, transparent 70%);
-  pointer-events: none;
+.wcu-avatar.avatar-1 { background-color: #E6D2B7; }
+.wcu-avatar.avatar-2 { background-color: #D3A297; }
+.wcu-avatar.avatar-3 { background-color: #C3D5C7; }
+
+.wcu-social-text {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.8);
 }
 
-/* CTA at base */
-.wcu-step-cta {
+/* ── Benefits list rows ── */
+.wcu-benefits-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 6px;
+  gap: 12px;
+  width: 100%;
 }
-.wcu-action-btn {
+
+.wcu-benefit-row {
+  background-color: #ffffff;
+  border: 1px solid rgba(23, 23, 23, 0.06);
+  border-radius: 12px;
+  display: flex;
+  padding: 16px 18px;
+  gap: 14px;
+  align-items: flex-start;
+  transition: transform 300ms ease, box-shadow 300ms ease, border-color 300ms ease;
+  box-sizing: border-box;
+}
+
+.wcu-benefit-row:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(23, 23, 23, 0.03);
+  border-color: rgba(15, 93, 82, 0.15);
+}
+
+.wcu-benefit-icon-box {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background-color: rgba(15, 93, 82, 0.05);
+  display: flex;
+  align-items: center;
   justify-content: center;
-  font-size: 0.8rem;
-  padding: 15px 24px;
-  box-shadow: 0 8px 25px rgba(15,93,82,0.15);
+  flex-shrink: 0;
 }
-.wcu-cta-sub {
+
+.wcu-benefit-row-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.wcu-benefit-row-title {
   font-family: 'Jost', sans-serif;
-  font-size: 0.65rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--premium-black);
+}
+
+.wcu-benefit-row-desc {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.74rem;
+  font-weight: 300;
   color: var(--soft-gray);
-  text-align: center;
+  line-height: 1.45;
+}
+
+/* ── CTA Action block ── */
+.wcu-cta-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.wcu-btn-discover {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 12px;
+  background-color: var(--forest-green);
+  color: #ffffff;
+  border: 1px solid var(--forest-green);
+  cursor: pointer;
+  transition: background-color 300ms ease, transform 300ms ease, box-shadow 300ms ease;
+  box-shadow: 0 10px 20px rgba(15, 93, 82, 0.15);
+}
+
+.wcu-btn-discover:hover {
+  background-color: var(--deep-emerald);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(15, 93, 82, 0.25);
+}
+
+.wcu-cta-note {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.72rem;
+  color: var(--soft-gray);
 }
 
 /* ── TABLET BREAKPOINT ── */
-@media (max-width: 1024px) {
-  .wcu-content {
-    gap: 32px;
-    padding: 0 24px;
-  }
-  .wcu-staircase-canvas {
-    width: 380px;
-    height: 380px;
-  }
-  .wcu-stair-block {
-    width: 100px;
-  }
-  .wcu-right {
-    max-width: 440px;
+@media (max-width: 768px) {
+  .wcu-section-replica {
+    padding-top: 60px;
+    padding-bottom: 60px;
   }
 }
 
-/* ── MOBILE BREAKPOINT (Locked to 500px height for ultra-tight layout) ── */
-@media (max-width: 768px) {
-  .wcu-sticky {
-    height: 500px;
-    min-height: 500px;
-    max-height: 500px;
+/* ── MOBILE BREAKPOINT ── */
+@media (max-width: 576px) {
+  .wcu-section-replica {
+    padding-top: 44px;
+    padding-bottom: 44px;
   }
-
-  .wcu-content {
-    flex-direction: row; /* Keep left/right split on mobile so stairs and details sit side-by-side */
-    gap: 12px;
-    padding: 16px 12px;
-    align-items: center;
+  .wcu-container {
+    gap: 28px;
   }
-
-  .wcu-left {
-    flex: 0 0 54px; /* Narrow vertical timeline stairs on left */
+  .wcu-grid-new {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
-
-  .wcu-staircase-canvas {
-    width: 54px;
-    height: 300px;
-    transform: none;
+  .wcu-card-item {
+    padding: 20px;
   }
-
-  .wcu-stair-container {
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    flex-direction: row;
-    gap: 0;
+  .wcu-title-new {
+    font-size: 1.85rem;
   }
-
-  /* Stack steps vertically on mobile */
-  .stair-pos-0 { bottom: 5%; }
-  .stair-pos-1 { bottom: 30%; }
-  .stair-pos-2 { bottom: 55%; }
-  .stair-pos-3 { bottom: 80%; }
-
-  .wcu-stair-block {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%; /* Circle nodes on mobile */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+  .wcu-subtitle-new {
+    font-size: 0.8rem;
   }
-  
-  .wcu-stair-container.active .wcu-stair-block {
-    box-shadow: 0 4px 12px rgba(15, 93, 82, 0.35);
+  .wcu-banner-card {
+    height: 130px;
   }
-
-  .wcu-stair-label {
-    display: none; /* Hide labels on mobile stairs to avoid overlap */
+  .wcu-stats-num {
+    font-size: 1.95rem;
   }
-
-  .wcu-climb-line {
-    left: 50%;
-    bottom: 5%;
-    width: 2px;
-    height: 75%;
-    border-left: 2px dashed rgba(15, 93, 82, 0.15);
-    border-bottom: none;
-    transform: translateX(-50%);
-  }
-
-  /* 3D Climber Mobile layout */
-  .wcu-climber {
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    box-shadow: 
-      0 0 15px rgba(212, 176, 106, 0.6);
-  }
-
-  /* Details side on mobile */
-  .wcu-right {
-    flex: 1;
-    max-width: none;
-    gap: 10px;
-  }
-
-  .wcu-step-indicator {
-    gap: 6px;
-  }
-  .wcu-ind-num, .wcu-ind-total {
-    font-size: 0.72rem;
-  }
-
-  .wcu-step-topic {
-    font-size: 1.25rem;
-  }
-
-  .wcu-comparison-stack {
-    gap: 10px;
-  }
-
-  .wcu-comp-card {
-    padding: 12px 14px;
-  }
-
-  .wcu-comp-header {
-    margin-bottom: 6px;
-    gap: 8px;
-  }
-
-  .wcu-comp-brand {
-    font-size: 0.58rem;
-  }
-  .wcu-verified-badge {
-    padding: 2px 6px;
-    font-size: 0.52rem;
-  }
-
-  .wcu-comp-card.card-them .wcu-comp-title,
-  .wcu-comp-card.card-us .wcu-comp-title {
-    font-size: 0.88rem;
-    margin-bottom: 2px;
-  }
-
-  .wcu-comp-card.card-them .wcu-comp-desc,
-  .wcu-comp-card.card-us .wcu-comp-desc {
-    font-size: 0.72rem;
-    line-height: 1.35;
-  }
-
-  .wcu-comp-icon {
-    width: 16px;
-    height: 16px;
-  }
-
-  .wcu-step-cta {
-    gap: 4px;
-    margin-top: 2px;
-  }
-
-  .wcu-action-btn {
-    padding: 10px 18px;
+  .wcu-stats-text {
     font-size: 0.74rem;
   }
-
-  .wcu-cta-sub {
-    font-size: 0.60rem;
+  .wcu-social-text {
+    font-size: 0.68rem;
+  }
+  .wcu-benefit-row {
+    padding: 12px 14px;
+  }
+  .wcu-btn-discover {
+    padding: 12px 24px;
+    font-size: 0.8rem;
+    width: 100%;
   }
 }
