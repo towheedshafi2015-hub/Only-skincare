@@ -1,8 +1,19 @@
+import { Component, Suspense, type ReactNode } from 'react'
 import Lanyard from './Lanyard'
 import founderFront from '../assets/founder/founder.png'
 import founderBack from '../assets/founder/Founder 2.png'
 import { ShieldCheck, Heart, Compass, Sparkles, ArrowRight } from 'lucide-react'
 import '../brand-story.css'
+
+// ── ErrorBoundary so a WebGL crash never takes down the whole page ──
+class LanyardErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false }
+  static getDerivedStateFromError() { return { failed: true } }
+  render() {
+    if (this.state.failed) return null
+    return this.props.children
+  }
+}
 
 export default function BrandStory() {
   return (
@@ -98,15 +109,19 @@ export default function BrandStory() {
 
           {/* 3D Canvas */}
           <div className="bs-lanyard-wrap">
-            <Lanyard
-              position={[0, 0, 14]}
-              gravity={[0, -45, 0]}
-              fov={20}
-              frontImage={founderFront}
-              backImage={founderBack}
-              imageFit="cover"
-              lanyardWidth={0.8}
-            />
+            <LanyardErrorBoundary>
+              <Suspense fallback={null}>
+                <Lanyard
+                  position={[0, 0, 14]}
+                  gravity={[0, -45, 0]}
+                  fov={20}
+                  frontImage={founderFront}
+                  backImage={founderBack}
+                  imageFit="cover"
+                  lanyardWidth={0.8}
+                />
+              </Suspense>
+            </LanyardErrorBoundary>
           </div>
         </div>
 
