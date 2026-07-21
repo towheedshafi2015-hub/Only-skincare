@@ -1,0 +1,18 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{{ page_title }} – Only Skincare</title>
+    {{ content_for_header }}
+    {{ 'index-BOuZg3Q7.css' | asset_url | stylesheet_tag }}
+  </head>
+  <body class="bg-[#040906]">
+    <div id="root"></div>
+    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+    <script type="module" src="{{ 'index-BrFIAy9Y.js' | asset_url }}"></script>
+  </body>
+</html>
