@@ -1,14 +1,12 @@
 /* ============================================================
-   ONLY SKINCARE — BRAND STORY (Single 700px Two-Column Section)
+   ONLY SKINCARE — BRAND STORY (Option A: Liquid 3D Parallax Card)
    ============================================================ */
 
 .brand-story-section {
   position: relative;
-  height: 700px;
-  background: linear-gradient(135deg, #0a2e28 0%, #0f3d35 40%, #07221e 100%);
+  padding: 96px 0;
+  background: linear-gradient(135deg, #041410 0%, #0a2e28 50%, #030c09 100%);
   overflow: hidden;
-  display: flex;
-  align-items: stretch;
 }
 
 /* ── Background Glow ── */
@@ -16,8 +14,8 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 55% 60% at 25% 50%, rgba(15, 93, 82, 0.35) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 50% at 78% 45%, rgba(212, 176, 106, 0.12) 0%, transparent 65%);
+    radial-gradient(ellipse 55% 60% at 25% 50%, rgba(15, 93, 82, 0.4) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 78% 45%, rgba(212, 176, 106, 0.15) 0%, transparent 65%);
   pointer-events: none;
   z-index: 0;
 }
@@ -37,10 +35,9 @@
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.1fr 0.9fr;
   align-items: center;
-  height: 100%;
-  gap: 0;
+  gap: 48px;
 }
 
 /* ============================================================
@@ -50,10 +47,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 18px;
-  padding-right: clamp(32px, 4vw, 72px);
-  border-right: 1px solid rgba(255, 255, 255, 0.07);
-  height: 100%;
+  gap: 20px;
+  padding-right: clamp(24px, 3vw, 48px);
 }
 
 /* Eyebrow */
@@ -62,7 +57,7 @@
   align-items: center;
   gap: 8px;
   font-family: 'Jost', sans-serif;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.28em;
   text-transform: uppercase;
@@ -72,7 +67,7 @@
 /* Heading */
 .bs-heading {
   font-family: 'Bodoni Moda', serif;
-  font-size: clamp(2.2rem, 3.5vw, 3.6rem);
+  font-size: clamp(2.4rem, 3.8vw, 3.8rem);
   line-height: 1.1;
   font-weight: 400;
   letter-spacing: -0.02em;
@@ -88,141 +83,82 @@
 /* Quote */
 .bs-quote {
   font-family: 'Bodoni Moda', serif;
-  font-size: 0.97rem;
+  font-size: 1.05rem;
   font-style: italic;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.75);
   line-height: 1.6;
   border-left: 2px solid var(--gold);
-  padding-left: 16px;
+  padding-left: 18px;
   margin: 0;
 }
 
 /* Body copy */
 .bs-body {
   font-family: 'Jost', sans-serif;
-  font-size: 0.93rem;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.65);
   line-height: 1.7;
   margin: 0;
 }
 
 .bs-body strong {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95);
   font-weight: 600;
-}
-
-/* ── Fallback Card ── */
-.bs-fallback-card {
-  width: 280px;
-  height: 420px;
-  margin: 0 auto;
-  border-radius: 16px;
-  background: linear-gradient(145deg, #145a4a 0%, #0a2e28 100%);
-  border: 1.5px solid rgba(212, 176, 106, 0.45);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(212, 176, 106, 0.15);
-  overflow: hidden;
-  position: relative;
-  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
-}
-.bs-fallback-card:hover {
-  transform: translateY(-8px) rotate(1.5deg) scale(1.02);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 45px rgba(212, 176, 106, 0.3);
-}
-.bs-fallback-inner {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-.bs-fallback-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.bs-fallback-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 24px 20px;
-  background: linear-gradient(to top, rgba(3, 10, 7, 0.95) 0%, rgba(3, 10, 7, 0.4) 60%, rgba(3, 10, 7, 0) 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 4px;
-}
-.bs-fallback-title {
-  font-size: 0.65rem;
-  letter-spacing: 0.25em;
-  color: #d4b06a;
-  text-transform: uppercase;
-  font-weight: 600;
-}
-.bs-fallback-name {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.05em;
-}
-.bs-fallback-role {
-  font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.75);
-  letter-spacing: 0.15em;
 }
 
 /* ── Pillars ── */
 .bs-pillars {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  margin-top: 4px;
 }
 
 .bs-pillar {
   display: flex;
   align-items: flex-start;
   gap: 14px;
-  padding: 13px 16px;
+  padding: 14px 18px;
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  transition: background 0.25s ease, border-color 0.25s ease;
+  backdrop-filter: blur(8px);
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
 }
 
 .bs-pillar:hover {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(212, 176, 106, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(212, 176, 106, 0.3);
+  transform: translateX(4px);
 }
 
 .bs-pillar-icon {
   flex-shrink: 0;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   background: rgba(212, 176, 106, 0.12);
-  border: 1px solid rgba(212, 176, 106, 0.2);
+  border: 1px solid rgba(212, 176, 106, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--gold);
-  margin-top: 1px;
 }
 
 .bs-pillar-title {
   display: block;
   font-family: 'Jost', sans-serif;
-  font-size: 0.83rem;
+  font-size: 0.88rem;
   font-weight: 600;
   color: #fff;
   letter-spacing: 0.02em;
-  line-height: 1.3;
 }
 
 .bs-pillar-desc {
   display: block;
   font-family: 'Jost', sans-serif;
-  font-size: 0.77rem;
-  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.55);
   line-height: 1.4;
   margin-top: 2px;
 }
@@ -232,39 +168,32 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 4px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .bs-signature {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 
 .bs-sig-name {
   font-family: 'Bodoni Moda', serif;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 500;
   color: #fff;
-  letter-spacing: 0.03em;
 }
 
 .bs-sig-title {
   font-family: 'Jost', sans-serif;
-  font-size: 0.73rem;
-  color: rgba(255, 255, 255, 0.42);
-  letter-spacing: 0.04em;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
 }
-
-.bs-cta {
-  flex-shrink: 0;
-}
-
 
 /* ============================================================
-   RIGHT COLUMN — 3D Lanyard Card
+   RIGHT COLUMN — Liquid 3D Parallax Founder Card
    ============================================================ */
 .bs-right {
   position: relative;
@@ -272,37 +201,31 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  padding-left: clamp(20px, 3vw, 48px);
-  overflow: hidden;
+  padding-top: 48px;
 }
 
 /* Glow blob behind card */
 .bs-card-glow {
   position: absolute;
-  width: 320px;
-  height: 320px;
-  background: radial-gradient(circle, rgba(212, 176, 106, 0.28) 0%, transparent 70%);
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, rgba(212, 176, 106, 0.25) 0%, transparent 70%);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 0;
-  filter: blur(30px);
+  filter: blur(40px);
 }
 
-/* Founder label above card */
+/* Label above */
 .bs-card-label {
-  position: absolute;
-  top: 32px;
-  left: clamp(20px, 3vw, 48px);
-  transform: none;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 2px;
-  z-index: 10;
-  pointer-events: none;
+  margin-bottom: 20px;
+  z-index: 2;
 }
 
 .bs-card-label-eyebrow {
@@ -312,42 +235,276 @@
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--gold);
-  opacity: 0.8;
 }
 
 .bs-card-label-name {
   font-family: 'Bodoni Moda', serif;
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.85);
-  letter-spacing: 0.05em;
+  font-size: 1.2rem;
+  color: #fff;
 }
 
-/* Lanyard canvas wrapper */
-.bs-lanyard-wrap {
+/* ── 3D Card Container ── */
+.bs-card-container {
   position: relative;
+  width: 310px;
+  perspective: 1000px;
   z-index: 2;
+  margin-top: 36px;
+}
+
+/* Woven Lanyard Strap hanging from above */
+.bs-lanyard-strap {
+  position: absolute;
+  top: -72px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.bs-strap-fabric {
+  width: 22px;
+  height: 60px;
+  background: linear-gradient(180deg, #092c26 0%, #0f5d52 100%);
+  border-left: 1.5px solid var(--gold);
+  border-right: 1.5px solid var(--gold);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.bs-strap-clip {
+  width: 30px;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.bs-clip-ring {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: #145a4a;
+}
+
+.bs-clip-hook {
+  width: 20px;
+  height: 8px;
+  background: linear-gradient(90deg, var(--gold), #b98a44);
+  border-radius: 3px;
+  margin-top: -3px;
+}
+
+/* ── Interactive 3D Card Face ── */
+.bs-card-3d {
+  position: relative;
+  width: 310px;
+  height: 460px;
+  border-radius: 20px;
+  background: #092620;
+  border: 1.5px solid rgba(212, 176, 106, 0.45);
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.65),
+    0 0 35px rgba(212, 176, 106, 0.2);
+  transform-style: preserve-3d;
+  transition: transform 150ms ease-out, box-shadow 300ms ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.bs-card-3d:hover {
+  border-color: rgba(212, 176, 106, 0.7);
+  box-shadow: 
+    0 35px 70px -15px rgba(0, 0, 0, 0.75),
+    0 0 50px rgba(212, 176, 106, 0.35);
+}
+
+.bs-card-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+.bs-card-face {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+  backface-visibility: hidden;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.bs-card-front {
+  z-index: 2;
+}
+
+.bs-card-back {
+  transform: rotateY(180deg);
+  background: #041410;
+  z-index: 1;
+}
+
+.bs-card-3d.flipped .bs-card-front {
+  transform: rotateY(180deg);
+}
+
+.bs-card-3d.flipped .bs-card-back {
+  transform: rotateY(0deg);
+  z-index: 3;
+}
+
+.bs-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Card Top Bar */
+.bs-card-top-bar {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 3;
+}
+
+.bs-card-brand {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.bs-card-chip {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.5);
+  padding: 3px 8px;
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Card Info Veil */
+.bs-card-info-veil {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 20px;
+  background: linear-gradient(to top, rgba(3, 12, 9, 0.96) 0%, rgba(3, 12, 9, 0.5) 70%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+  z-index: 3;
+}
+
+.bs-card-eyebrow {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.bs-card-name {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+
+.bs-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 2px;
+}
+
+.bs-card-dot {
+  color: var(--gold);
+}
+
+.bs-card-back-quote {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+  margin: 8px 0;
+}
+
+.bs-card-sig {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+}
+
+/* Flip Icon Button */
+.bs-flip-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 12;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(15, 93, 82, 0.8);
+  border: 1px solid rgba(212, 176, 106, 0.4);
+  border-radius: 999px;
+  color: #fff;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.bs-flip-btn:hover {
+  background: var(--forest-green);
+  transform: scale(1.05);
 }
 
 /* ── Interaction Badge ── */
 .bs-badge {
-  position: absolute;
-  bottom: 8px;
-  left: 50%;
-  transform: translateX(-50%);
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 8px 18px;
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 999px;
   backdrop-filter: blur(12px);
-  pointer-events: none;
-  z-index: 10;
-  white-space: nowrap;
+  margin-top: 24px;
+  z-index: 2;
 }
 
 .bs-pulse-dot {
@@ -355,7 +512,6 @@
   height: 6px;
   border-radius: 50%;
   background: var(--gold);
-  flex-shrink: 0;
   position: relative;
 }
 
@@ -380,50 +536,38 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* ============================================================
    RESPONSIVE — Tablet & Mobile
    ============================================================ */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .brand-story-section {
-    height: auto;
-    min-height: 700px;
+    padding: 64px 0;
   }
 
   .bs-inner {
     grid-template-columns: 1fr;
-    padding-top: 60px;
-    padding-bottom: 40px;
-    gap: 0;
+    gap: 48px;
   }
 
   .bs-left {
     padding-right: 0;
-    border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    padding-bottom: 40px;
   }
 
   .bs-right {
-    padding-left: 0;
-    height: 580px;
-  }
-
-  .bs-footer-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
+    padding-top: 20px;
   }
 }
 
 @media (max-width: 480px) {
-  .bs-heading {
-    font-size: 2rem;
+  .bs-card-container, .bs-card-3d {
+    width: 280px;
+    height: 420px;
   }
 
-  .bs-right {
-    height: 540px;
+  .bs-heading {
+    font-size: 2.1rem;
   }
 }

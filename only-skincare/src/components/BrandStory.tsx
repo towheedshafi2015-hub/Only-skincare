@@ -1,40 +1,164 @@
-import { Component, Suspense, type ReactNode } from 'react'
-import Lanyard from './Lanyard'
+import { useState, useRef, type MouseEvent, type TouchEvent } from 'react'
 import founderFront from '../assets/founder/founder.png'
 import founderBack from '../assets/founder/Founder 2.png'
-import { ShieldCheck, Heart, Compass, Sparkles, ArrowRight } from 'lucide-react'
+import { ShieldCheck, Heart, Compass, Sparkles, ArrowRight, RotateCw } from 'lucide-react'
 import { getAssetUrl } from '../lib/assets'
 import '../brand-story.css'
 
-function FallbackCard() {
+function FounderCard3D() {
+  const [transform, setTransform] = useState('rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)')
+  const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 })
+  const [isFlipped, setIsFlipped] = useState(false)
+  const cardRef = useRef<HTMLDivElement>(null)
+
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return
+    const rect = cardRef.current.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    const centerX = rect.width / 2
+    const centerY = rect.height / 2
+
+    // Smooth tilt angles (-12 to +12 deg)
+    const rotateX = ((y - centerY) / centerY) * -12
+    const rotateY = ((x - centerX) / centerX) * 12
+
+    setTransform(`rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.03, 1.03, 1.03)`)
+    setGlare({
+      x: (x / rect.width) * 100,
+      y: (y / rect.height) * 100,
+      opacity: 0.35,
+    })
+  }
+
+  const handleMouseLeave = () => {
+    setTransform('rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)')
+    setGlare({ x: 50, y: 50, opacity: 0 })
+  }
+
+  const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
+    if (!cardRef.current || !e.touches[0]) return
+    const touch = e.touches[0]
+    const rect = cardRef.current.getBoundingClientRect()
+    const x = touch.clientX - rect.left
+    const y = touch.clientY - rect.top
+    const centerX = rect.width / 2
+    const centerY = rect.height / 2
+
+    const rotateX = ((y - centerY) / centerY) * -10
+    const rotateY = ((x - centerX) / centerX) * 10
+
+    setTransform(`rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`)
+    setGlare({
+      x: (x / rect.width) * 100,
+      y: (y / rect.height) * 100,
+      opacity: 0.3,
+    })
+  }
+
   return (
-    <div className="bs-fallback-card">
-      <div className="bs-fallback-inner">
-        <img src={getAssetUrl(founderFront)} alt="Owais Khan - Founder" className="bs-fallback-img" />
-        <div className="bs-fallback-overlay">
-          <span className="bs-fallback-title">ONLY SKINCARE</span>
-          <span className="bs-fallback-name">OWAIS KHAN</span>
-          <span className="bs-fallback-role">FOUNDER &amp; CEO · AGE 20</span>
+    <div className="bs-card-container">
+      {/* ── Metallic Woven Lanyard Strap hanging from above ── */}
+      <div className="bs-lanyard-strap" aria-hidden="true">
+        <div className="bs-strap-fabric" />
+        <div className="bs-strap-clip">
+          <div className="bs-clip-ring" />
+          <div className="bs-clip-hook" />
         </div>
+      </div>
+
+      {/* ── Interactive 3D Parallax Card ── */}
+      <div
+        ref={cardRef}
+        className={`bs-card-3d ${isFlipped ? 'flipped' : ''}`}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleMouseLeave}
+        onClick={() => setIsFlipped(!isFlipped)}
+        style={{ transform }}
+        role="button"
+        tabIndex={0}
+        aria-label="Interactive 3D Founder ID Card - Click to Flip"
+      >
+        {/* Holographic Glare Sheen Overlay */}
+        <div
+          className="bs-card-glare"
+          style={{
+            background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(255, 255, 255, ${glare.opacity}), transparent 60%)`,
+          }}
+          aria-hidden="true"
+        />
+
+        {/* FRONT FACE */}
+        <div className="bs-card-face bs-card-front">
+          <img
+            src={getAssetUrl(founderFront)}
+            alt="Owais Khan - Founder & CEO"
+            className="bs-card-img"
+            loading="eager"
+          />
+
+          {/* Top Gold Foil Header */}
+          <div className="bs-card-top-bar">
+            <span className="bs-card-brand">ONLY SKINCARE</span>
+            <span className="bs-card-chip">ID: OS-2024-01</span>
+          </div>
+
+          {/* Bottom Info Veil */}
+          <div className="bs-card-info-veil">
+            <span className="bs-card-eyebrow">FOUNDER &amp; VISIONARY</span>
+            <h3 className="bs-card-name">Owais Khan</h3>
+            <div className="bs-card-meta">
+              <span className="bs-card-tag">Age 20</span>
+              <span className="bs-card-dot">•</span>
+              <span className="bs-card-tag">Science &amp; Nature</span>
+            </div>
+          </div>
+
+          {/* Holographic Watermark */}
+          <div className="bs-card-holo" aria-hidden="true" />
+        </div>
+
+        {/* BACK FACE */}
+        <div className="bs-card-face bs-card-back">
+          <img
+            src={getAssetUrl(founderBack)}
+            alt="Owais Khan - Founder Back Card"
+            className="bs-card-img"
+            loading="lazy"
+          />
+          <div className="bs-card-info-veil">
+            <span className="bs-card-eyebrow">THE PROMISE</span>
+            <p className="bs-card-back-quote">
+              "Clean, clinically proven formulations created for Indian skin."
+            </p>
+            <span className="bs-card-sig">— OWAIS KHAN</span>
+          </div>
+        </div>
+
+        {/* Flip Icon Button */}
+        <button
+          className="bs-flip-btn"
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation()
+            setIsFlipped(!isFlipped)
+          }}
+          aria-label="Flip Card"
+        >
+          <RotateCw size={12} />
+          <span>Flip Card</span>
+        </button>
       </div>
     </div>
   )
 }
 
-// ── ErrorBoundary so a WebGL crash never leaves a blank space ──
-class LanyardErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
-  state = { failed: false }
-  static getDerivedStateFromError() { return { failed: true } }
-  render() {
-    if (this.state.failed) return <FallbackCard />
-    return this.props.children
-  }
-}
-
 export default function BrandStory() {
   return (
     <section className="brand-story-section" id="brand-story">
-      {/* Subtle background layers */}
+      {/* Background ambient lighting */}
       <div className="bs-bg-glow" aria-hidden="true" />
       <div className="bs-noise" aria-hidden="true" />
 
@@ -106,39 +230,25 @@ export default function BrandStory() {
           </div>
         </div>
 
-        {/* ── RIGHT: 3D Founder Lanyard Card ── */}
+        {/* ── RIGHT: 3D Parallax Founder ID Card ── */}
         <div className="bs-right">
-          {/* Glow behind the canvas */}
+          {/* Ambient Glow */}
           <div className="bs-card-glow" aria-hidden="true" />
 
           {/* Interaction hint */}
           <div className="bs-badge">
             <span className="bs-pulse-dot" />
-            <span className="bs-badge-text">Drag to Swing &amp; Spin</span>
+            <span className="bs-badge-text">Hover &amp; Tilt · Click to Flip</span>
           </div>
 
           {/* Label above */}
           <div className="bs-card-label">
-            <span className="bs-card-label-eyebrow">Founder ID</span>
+            <span className="bs-card-label-eyebrow">FOUNDER ID</span>
             <span className="bs-card-label-name">Owais Khan</span>
           </div>
 
-          {/* 3D Canvas */}
-          <div className="bs-lanyard-wrap">
-            <LanyardErrorBoundary>
-              <Suspense fallback={<FallbackCard />}>
-                <Lanyard
-                  position={[0, 0, 14]}
-                  gravity={[0, -45, 0]}
-                  fov={20}
-                  frontImage={founderFront}
-                  backImage={founderBack}
-                  imageFit="cover"
-                  lanyardWidth={0.8}
-                />
-              </Suspense>
-            </LanyardErrorBoundary>
-          </div>
+          {/* 3D Liquid Parallax Card */}
+          <FounderCard3D />
         </div>
 
       </div>
