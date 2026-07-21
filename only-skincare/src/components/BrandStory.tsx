@@ -3,14 +3,30 @@ import Lanyard from './Lanyard'
 import founderFront from '../assets/founder/founder.png'
 import founderBack from '../assets/founder/Founder 2.png'
 import { ShieldCheck, Heart, Compass, Sparkles, ArrowRight } from 'lucide-react'
+import { getAssetUrl } from '../lib/assets'
 import '../brand-story.css'
 
-// ── ErrorBoundary so a WebGL crash never takes down the whole page ──
+function FallbackCard() {
+  return (
+    <div className="bs-fallback-card">
+      <div className="bs-fallback-inner">
+        <img src={getAssetUrl(founderFront)} alt="Owais Khan - Founder" className="bs-fallback-img" />
+        <div className="bs-fallback-overlay">
+          <span className="bs-fallback-title">ONLY SKINCARE</span>
+          <span className="bs-fallback-name">OWAIS KHAN</span>
+          <span className="bs-fallback-role">FOUNDER &amp; CEO · AGE 20</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ── ErrorBoundary so a WebGL crash never leaves a blank space ──
 class LanyardErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
   state = { failed: false }
   static getDerivedStateFromError() { return { failed: true } }
   render() {
-    if (this.state.failed) return null
+    if (this.state.failed) return <FallbackCard />
     return this.props.children
   }
 }
@@ -110,7 +126,7 @@ export default function BrandStory() {
           {/* 3D Canvas */}
           <div className="bs-lanyard-wrap">
             <LanyardErrorBoundary>
-              <Suspense fallback={null}>
+              <Suspense fallback={<FallbackCard />}>
                 <Lanyard
                   position={[0, 0, 14]}
                   gravity={[0, -45, 0]}

@@ -111,6 +111,66 @@
   font-weight: 600;
 }
 
+/* ── Fallback Card ── */
+.bs-fallback-card {
+  width: 280px;
+  height: 420px;
+  margin: 0 auto;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #145a4a 0%, #0a2e28 100%);
+  border: 1.5px solid rgba(212, 176, 106, 0.45);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(212, 176, 106, 0.15);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+}
+.bs-fallback-card:hover {
+  transform: translateY(-8px) rotate(1.5deg) scale(1.02);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 45px rgba(212, 176, 106, 0.3);
+}
+.bs-fallback-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.bs-fallback-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.bs-fallback-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 20px;
+  background: linear-gradient(to top, rgba(3, 10, 7, 0.95) 0%, rgba(3, 10, 7, 0.4) 60%, rgba(3, 10, 7, 0) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+}
+.bs-fallback-title {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: #d4b06a;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.bs-fallback-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+}
+.bs-fallback-role {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.15em;
+}
+
 /* ── Pillars ── */
 .bs-pillars {
   display: flex;
