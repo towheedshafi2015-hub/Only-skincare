@@ -16,10 +16,15 @@ if (fs.existsSync(THEME_DIR)) {
   fs.rmSync(THEME_DIR, { recursive: true, force: true })
 }
 
-const dirs = ['assets', 'layout', 'templates', 'config']
+const dirs = ['assets', 'layout', 'templates', 'config', 'locales']
 dirs.forEach(d => fs.mkdirSync(path.join(THEME_DIR, d), { recursive: true }))
 
 const assetMap = {}
+
+// Helper to sanitize filenames to strictly follow Shopify rules (lowercase, no spaces, alphanumeric, _, -, .)
+function sanitizeFilename(name) {
+  return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9_\-\.]/g, '_')
+}
 
 function copyToAssets(srcDir, subPath = '') {
   const items = fs.readdirSync(srcDir)
@@ -33,27 +38,34 @@ function copyToAssets(srcDir, subPath = '') {
         copyToAssets(fullSrc, relKey)
       }
     } else if (stat.isFile() && item !== 'index.html') {
-      const flatName = subPath ? `${subPath.replace(/\//g, '_')}_${item}` : item
+      const rawFlatName = subPath ? `${subPath.replace(/\//g, '_')}_${item}` : item
+      const flatName = sanitizeFilename(rawFlatName)
       const targetPath = path.join(THEME_DIR, 'assets', flatName)
       fs.copyFileSync(fullSrc, targetPath)
+      
       assetMap[relKey] = flatName
+      assetMap[relKey.toLowerCase()] = flatName
       if (subPath) {
         assetMap[item] = flatName
+        assetMap[item.toLowerCase()] = flatName
       }
     }
   })
 }
 
-// 1. Copy dist assets (bundled GLB, PNGs, etc) & record in mapping table
+// 1. Copy dist assets & record in mapping table with sanitized names
 const distAssetsDir = path.join(DIST_DIR, 'assets')
 if (fs.existsSync(distAssetsDir)) {
   fs.readdirSync(distAssetsDir).forEach(file => {
+    const cleanFile = sanitizeFilename(file)
     fs.copyFileSync(
       path.join(distAssetsDir, file),
-      path.join(THEME_DIR, 'assets', file)
+      path.join(THEME_DIR, 'assets', cleanFile)
     )
-    assetMap[`assets/${file}`] = file
-    assetMap[file] = file
+    assetMap[`assets/${file}`] = cleanFile
+    assetMap[file] = cleanFile
+    assetMap[`assets/${cleanFile}`] = cleanFile
+    assetMap[cleanFile] = cleanFile
   })
 }
 
@@ -95,7 +107,7 @@ const themeLiquid = `<!doctype html>
       window.getAssetUrl = function(path) {
         if (!path) return '';
         var clean = path.replace(/^\\//, '').split('?')[0];
-        return window.SHOPIFY_ASSETS[clean] || window.SHOPIFY_ASSETS[path] || path;
+        return window.SHOPIFY_ASSETS[clean] || window.SHOPIFY_ASSETS[clean.toLowerCase()] || window.SHOPIFY_ASSETS[path] || path;
       };
     </script>
   </head>
@@ -130,6 +142,19 @@ fs.writeFileSync(
       ]
     }
   ], null, 2)
+)
+
+// 6. Create locales/en.default.json
+fs.writeFileSync(
+  path.join(THEME_DIR, 'locales', 'en.default.json'),
+  JSON.stringify({
+    "general": {
+      "meta": {
+        "tags": "Tags \"{{ tags }}\"",
+        "page": "Page {{ page }}"
+      }
+    }
+  }, null, 2)
 )
 
 console.log('🤐 Step 3: Zipping Shopify Theme...')

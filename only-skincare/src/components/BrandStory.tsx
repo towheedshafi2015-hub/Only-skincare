@@ -1,6 +1,6 @@
 import { useState, useRef, type MouseEvent, type TouchEvent } from 'react'
 import founderFront from '../assets/founder/founder.png'
-import founderBack from '../assets/founder/Founder 2.png'
+import founderBack from '../assets/founder/founder-2.png'
 import { ShieldCheck, Heart, Compass, Sparkles, ArrowRight, RotateCw } from 'lucide-react'
 import { getAssetUrl } from '../lib/assets'
 import '../brand-story.css'
