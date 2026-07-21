@@ -26,8 +26,25 @@
 html {
   /* overflow-x: clip does NOT break position:sticky (unlike overflow:hidden) */
   overflow-x: clip;
-  scroll-behavior: auto; /* let GSAP handle smooth scroll */
+  scroll-behavior: auto; /* let Lenis handle smooth scroll */
   -webkit-font-smoothing: antialiased;
+}
+
+/* ── Lenis Smooth Scroll Styles ── */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 body {
