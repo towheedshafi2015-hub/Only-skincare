@@ -114,3 +114,25 @@ main { display: block; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* ── Cart Loading Bar ── */
+.cart-loading-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: rgba(15,93,82,0.15);
+  overflow: hidden;
+  z-index: 10;
+}
+.cart-loading-fill {
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, var(--forest-green), var(--gold));
+  border-radius: 0 2px 2px 0;
+  animation: cart-load-slide 1.2s ease-in-out infinite;
+}
+@keyframes cart-load-slide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+

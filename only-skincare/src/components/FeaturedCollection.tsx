@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Star, ShoppingBag, Loader2, Sparkles } from 'lucide-react'
-import { useCart } from '../context/CartContext'
+import { useCart, type AddItemPayload } from '../context/CartContext'
+import { shopifyFetch } from '../lib/shopify'
 
 interface ShopifyProduct {
   id: string
@@ -8,19 +9,19 @@ interface ShopifyProduct {
   handle: string
   description: string
   price: number
+  variantId: string  // Shopify variant GID — needed for cartLinesAdd
   img: string
   badge?: string
   rating: number
   reviewsCount: number
 }
 
-// Fallback pricing for products that have 0.0 in Shopify
+// Fallback pricing for products that return 0.0 from Shopify
 const REAL_PRICES: Record<string, number> = {
   'only-skincare-spf-50-pa-dermatologist-tested-sunscreen': 749,
   'nighttime-recovery-cream': 849,
 }
 
-// Custom handpicked badges for styling
 const BRAND_BADGES: Record<string, string> = {
   'only-skincare-spf-50-pa-dermatologist-tested-sunscreen': 'Best Seller',
   'only-skincare-nourishing-cleansing-oil': 'New Launch',
@@ -35,6 +36,32 @@ const RATING_VALS: Record<string, { rating: number; count: number }> = {
   'nighttime-recovery-cream': { rating: 4.9, count: 148 },
 }
 
+const PRODUCTS_QUERY = `
+  {
+    products(first: 4) {
+      edges {
+        node {
+          id
+          title
+          handle
+          description
+          variants(first: 1) {
+            edges {
+              node {
+                id
+                price { amount }
+              }
+            }
+          }
+          images(first: 1) {
+            edges { node { url } }
+          }
+        }
+      }
+    }
+  }
+`
+
 export default function FeaturedCollection() {
   const { addItem } = useCart()
   const [products, setProducts] = useState<ShopifyProduct[]>([])
@@ -43,58 +70,19 @@ export default function FeaturedCollection() {
 
   useEffect(() => {
     async function fetchProducts() {
-      const url = 'https://onlyskincareofficial.myshopify.com/api/2024-01/graphql.json'
-      const query = `
-        {
-          products(first: 4) {
-            edges {
-              node {
-                id
-                title
-                handle
-                description
-                variants(first: 1) {
-                  edges {
-                    node {
-                      id
-                      price {
-                        amount
-                      }
-                    }
-                  }
-                }
-                images(first: 1) {
-                  edges {
-                    node {
-                      url
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      `
-
       try {
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Shopify-Storefront-Access-Token': '38fea3ad93a39bbcf4072ee13ac04eee',
-          },
-          body: JSON.stringify({ query }),
-        })
-        const json = await res.json()
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const json: any = await shopifyFetch({ query: PRODUCTS_QUERY })
         const edges = json.data?.products?.edges || []
 
         const mapped: ShopifyProduct[] = edges.map((edge: any) => {
           const node = edge.node
-          const rawPrice = parseFloat(node.variants?.edges[0]?.node?.price?.amount || '0')
-          
-          // Override 0.0 with realistic fallbacks, otherwise use storefront price
+          const variantNode = node.variants?.edges[0]?.node
+          const rawPrice = parseFloat(variantNode?.price?.amount || '0')
           const price = rawPrice === 0 ? (REAL_PRICES[node.handle] || 699) : rawPrice
-          const img = node.images?.edges[0]?.node?.url || 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=600'
+          const img =
+            node.images?.edges[0]?.node?.url ||
+            'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=600'
           const ratingData = RATING_VALS[node.handle] || { rating: 4.8, count: 42 }
 
           return {
@@ -103,6 +91,7 @@ export default function FeaturedCollection() {
             handle: node.handle,
             description: node.description,
             price,
+            variantId: variantNode?.id || node.id,  // Shopify variant GID
             img,
             badge: BRAND_BADGES[node.handle],
             rating: ratingData.rating,
@@ -121,23 +110,25 @@ export default function FeaturedCollection() {
     fetchProducts()
   }, [])
 
-  const handleQuickAdd = (product: ShopifyProduct) => {
+  const handleQuickAdd = async (product: ShopifyProduct) => {
     setAddingId(product.id)
-    setTimeout(() => {
-      addItem({
-        id: product.id,
+    try {
+      const payload: AddItemPayload = {
+        variantId: product.variantId,
         title: product.title,
         price: product.price,
         img: product.img,
-      })
+      }
+      await addItem(payload)
+    } finally {
       setAddingId(null)
-    }, 850) // Premium lag/confirm sequence
+    }
   }
 
   return (
     <section className="fc-section">
       <div className="container-os">
-        
+
         {/* Header Stack */}
         <div className="fc-header text-center">
           <div className="fc-eyebrow">
@@ -154,7 +145,6 @@ export default function FeaturedCollection() {
 
         {/* Products Grid */}
         {loading ? (
-          /* Loading Skeleton */
           <div className="fc-grid">
             {[...Array(4)].map((_, i) => (
               <div key={i} className="fc-skeleton-card">
@@ -170,12 +160,10 @@ export default function FeaturedCollection() {
           <div className="fc-grid">
             {products.map((p) => (
               <div key={p.id} className="fc-card">
-                
+
                 {/* Product Image Frame */}
                 <div className="fc-img-frame">
                   <img src={p.img} alt={p.title} className="fc-product-img" />
-                  
-                  {/* Badge */}
                   {p.badge && (
                     <span className="fc-badge">{p.badge}</span>
                   )}
@@ -183,12 +171,17 @@ export default function FeaturedCollection() {
 
                 {/* Info Block */}
                 <div className="fc-info">
-                  
+
                   {/* Star Rating */}
                   <div className="fc-rating-row">
                     <div className="fc-stars">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} size={11} fill={i < Math.floor(p.rating) ? '#D4B06A' : 'none'} stroke={i < Math.floor(p.rating) ? 'none' : '#B4B4B4'} />
+                        <Star
+                          key={i}
+                          size={11}
+                          fill={i < Math.floor(p.rating) ? '#D4B06A' : 'none'}
+                          stroke={i < Math.floor(p.rating) ? 'none' : '#B4B4B4'}
+                        />
                       ))}
                     </div>
                     <span className="fc-rating-num">{p.rating}</span>
@@ -202,7 +195,7 @@ export default function FeaturedCollection() {
                   <span className="fc-card-price">₹{p.price}</span>
 
                   {/* Action Button */}
-                  <button 
+                  <button
                     className={`btn-primary fc-add-btn ${addingId === p.id ? 'adding' : ''}`}
                     onClick={() => handleQuickAdd(p)}
                     disabled={addingId !== null}

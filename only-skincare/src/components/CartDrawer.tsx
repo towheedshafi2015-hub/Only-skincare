@@ -1,33 +1,56 @@
-import { X, Plus, Minus, ShoppingBag, Trash2 } from 'lucide-react'
+import { X, Plus, Minus, ShoppingBag, Trash2, Loader2 } from 'lucide-react'
 import { useCart } from '../context/CartContext'
 
 export default function CartDrawer() {
-  const { cartItems, isOpen, closeCart, updateQuantity, removeItem, cartTotal } = useCart()
+  const {
+    cartLines,
+    isOpen,
+    loading,
+    closeCart,
+    updateQuantity,
+    removeItem,
+    cartTotal,
+    cartCount,
+    checkoutUrl,
+  } = useCart()
 
   if (!isOpen) return null
+
+  const handleCheckout = () => {
+    if (checkoutUrl) {
+      window.location.href = checkoutUrl
+    }
+  }
 
   return (
     <div className="cart-overlay" onClick={closeCart}>
       {/* Drawer Panel */}
-      <div 
-        className="cart-panel" 
-        onClick={(e) => e.stopPropagation()} // Stop click bubbling to keep panel open
+      <div
+        className="cart-panel"
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="cart-header">
           <div className="cart-title-wrap">
             <ShoppingBag size={20} className="text-forest" />
             <span className="cart-title">Your Cart</span>
-            <span className="cart-count-badge">{cartItems.length}</span>
+            <span className="cart-count-badge">{cartCount}</span>
           </div>
           <button className="cart-close-btn" onClick={closeCart} aria-label="Close cart">
             <X size={20} />
           </button>
         </div>
 
+        {/* Loading overlay */}
+        {loading && (
+          <div className="cart-loading-bar">
+            <div className="cart-loading-fill" />
+          </div>
+        )}
+
         {/* Content Area */}
         <div className="cart-content">
-          {cartItems.length === 0 ? (
+          {cartLines.length === 0 ? (
             <div className="cart-empty-state">
               <div className="empty-bag-wrap">
                 <ShoppingBag size={48} strokeWidth={1.2} className="text-light-gray animate-bounce" />
@@ -38,39 +61,42 @@ export default function CartDrawer() {
             </div>
           ) : (
             <div className="cart-items-list">
-              {cartItems.map((item) => (
-                <div key={item.id} className="cart-item">
-                  <img src={item.img} alt={item.title} className="cart-item-img" />
-                  
+              {cartLines.map((line) => (
+                <div key={line.id} className="cart-item">
+                  <img src={line.img} alt={line.title} className="cart-item-img" />
+
                   <div className="cart-item-details">
-                    <span className="cart-item-name">{item.title}</span>
-                    {item.variantTitle && item.variantTitle !== 'Default Title' && (
-                      <span className="cart-item-variant">{item.variantTitle}</span>
+                    <span className="cart-item-name">{line.title}</span>
+                    {line.variantTitle && line.variantTitle !== 'Default Title' && (
+                      <span className="cart-item-variant">{line.variantTitle}</span>
                     )}
-                    <span className="cart-item-price">₹{item.price * item.quantity}</span>
-                    
-                    {/* Quantity Selector */}
+                    <span className="cart-item-price">₹{(line.price * line.quantity).toFixed(0)}</span>
+
+                    {/* Quantity Selector — passes line.id (Shopify line GID) */}
                     <div className="cart-qty-selector">
-                      <button 
-                        className="qty-btn" 
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                      <button
+                        className="qty-btn"
+                        onClick={() => updateQuantity(line.id, line.quantity - 1)}
+                        disabled={loading}
                       >
                         <Minus size={12} />
                       </button>
-                      <span className="qty-number">{item.quantity}</span>
-                      <button 
-                        className="qty-btn" 
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      <span className="qty-number">{line.quantity}</span>
+                      <button
+                        className="qty-btn"
+                        onClick={() => updateQuantity(line.id, line.quantity + 1)}
+                        disabled={loading}
                       >
                         <Plus size={12} />
                       </button>
                     </div>
                   </div>
 
-                  <button 
-                    className="cart-item-remove" 
-                    onClick={() => removeItem(item.id)}
+                  <button
+                    className="cart-item-remove"
+                    onClick={() => removeItem(line.id)}
                     aria-label="Remove item"
+                    disabled={loading}
                   >
                     <Trash2 size={16} />
                   </button>
@@ -80,19 +106,27 @@ export default function CartDrawer() {
           )}
         </div>
 
-        {/* Footer & Checkout Area */}
-        {cartItems.length > 0 && (
+        {/* Footer & Checkout */}
+        {cartLines.length > 0 && (
           <div className="cart-footer">
             <div className="cart-summary-row">
               <span className="summary-label">Subtotal</span>
-              <span className="summary-val">₹{cartTotal}</span>
+              <span className="summary-val">₹{cartTotal.toFixed(0)}</span>
             </div>
             <p className="cart-tax-notice">Shipping and taxes calculated at checkout.</p>
-            <button 
+            <button
               className="btn-primary cart-checkout-btn"
-              onClick={() => alert('Proceeding to checkout...')}
+              onClick={handleCheckout}
+              disabled={loading || !checkoutUrl}
             >
-              Checkout Now
+              {loading ? (
+                <>
+                  <Loader2 size={15} className="animate-spin" />
+                  <span>Updating...</span>
+                </>
+              ) : (
+                'Checkout Now →'
+              )}
             </button>
             <button className="cart-continue-btn" onClick={closeCart}>
               Continue Shopping

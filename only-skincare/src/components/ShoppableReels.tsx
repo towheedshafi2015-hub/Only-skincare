@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, X, ShoppingBag, ChevronLeft, ChevronRight, Sparkles, Star, Tag } from 'lucide-react'
-import { useCart } from '../context/CartContext'
+import { useCart, type AddItemPayload } from '../context/CartContext'
 import '../shoppable-reels.css'
 
 /* ── Reel data ── */
@@ -169,8 +169,14 @@ export default function ShoppableReels() {
     }
   }
 
-  const handleAddToBag = (reel: Reel) => {
-    addItem({ id: reel.id, title: reel.product, price: reel.price, img: reel.image })
+  const handleAddToBag = async (reel: Reel) => {
+    const payload: AddItemPayload = {
+      variantId: reel.id,  // handle used as fallback; replace with real GID when available
+      title: reel.product,
+      price: reel.price,
+      img: reel.image,
+    }
+    await addItem(payload)
     setPopup(null)
     openCart()
   }
