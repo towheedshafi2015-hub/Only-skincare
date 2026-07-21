@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Sun, Moon, Clock, Check, ChevronRight, ChevronLeft, Sparkles } from 'lucide-react'
+import { getAssetUrl } from '../lib/assets'
 import '../how-it-works.css'
 
 type Mode = 'am' | 'pm'
@@ -225,7 +226,7 @@ export default function HowItWorks() {
           >
             <img
               key={`${mode}-img-${active}`}
-              src={step.image}
+              src={getAssetUrl(step.image)}
               alt={step.product}
               className="hiw-img"
               loading="lazy"

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Play, X, ShoppingBag, ChevronLeft, ChevronRight, Sparkles, Star, Tag } from 'lucide-react'
 import { useCart, type AddItemPayload } from '../context/CartContext'
+import { getAssetUrl } from '../lib/assets'
 import '../shoppable-reels.css'
 
 /* ── Reel data ── */
@@ -174,7 +175,7 @@ export default function ShoppableReels() {
       variantId: reel.id,  // handle used as fallback; replace with real GID when available
       title: reel.product,
       price: reel.price,
-      img: reel.image,
+      img: getAssetUrl(reel.image),
     }
     await addItem(payload)
     setPopup(null)
@@ -224,7 +225,7 @@ export default function ShoppableReels() {
                   role="button"
                   aria-label={`Open reel: ${reel.product}`}
                 >
-                  <img src={reel.image} alt={reel.product} className="sr-thumb" loading="lazy" />
+                  <img src={getAssetUrl(reel.image)} alt={reel.product} className="sr-thumb" loading="lazy" />
                   <div className="sr-grad"   aria-hidden="true" />
 
                   {/* Play icon */}

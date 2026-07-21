@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { ShieldCheck, Award, FlaskConical, BadgeCheck, Leaf, Heart, Sparkles, Check } from 'lucide-react'
+import { getAssetUrl } from '../lib/assets'
 import '../trust-authority.css'
 
 /* ─── Data ──────────────────────────────────────────── */
@@ -114,7 +115,7 @@ function CertCard({ cert }: { cert: typeof CERTS[0] }) {
         onMouseLeave={onLeave}
         style={{ '--glow-color': cert.glowColor } as React.CSSProperties}
       >
-        <img src={cert.src} alt={cert.label} className="ta-cert-img" loading="lazy" />
+        <img src={getAssetUrl(cert.src)} alt={cert.label} className="ta-cert-img" loading="lazy" />
         <div className="ta-cert-sheen" aria-hidden="true" />
         <div className="ta-cert-info">
           <span className="ta-cert-label">{cert.label}</span>
@@ -227,7 +228,7 @@ export default function TrustAuthority() {
         </div>
         <div className="ta-media-frame">
           <img
-            src="/trust/media-mentions.jpeg"
+            src={getAssetUrl('/trust/media-mentions.jpeg')}
             alt="Only Skincare featured in media"
             className="ta-media-img"
             loading="lazy"

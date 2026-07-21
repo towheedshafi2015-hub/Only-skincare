@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ShieldCheck, Leaf, FlaskConical, RotateCcw } from 'lucide-react'
+import { getAssetUrl } from '../lib/assets'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -123,7 +124,7 @@ export default function HeroSection() {
         <video
           ref={videoRef}
           className="hero-video"
-          src="/hero.mp4"
+          src={getAssetUrl('/hero.mp4')}
           muted
           playsInline
           preload="auto"

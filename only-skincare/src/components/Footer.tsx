@@ -2,6 +2,7 @@ import { useState } from 'react'
 import {
   Mail, ArrowRight, Leaf, Heart, ShieldCheck,
 } from 'lucide-react'
+import { getAssetUrl } from '../lib/assets'
 import '../footer.css'
 
 /* ── Inline SVG social icons (lucide-react has no brand icons) ── */
@@ -143,7 +144,7 @@ export default function Footer() {
           {/* Right: product image */}
           <div className="ft-cta-right" aria-hidden="true">
             <img
-              src="/products/moisturizer.jpeg"
+              src={getAssetUrl('/products/moisturizer.jpeg')}
               alt=""
               className="ft-cta-img"
             />

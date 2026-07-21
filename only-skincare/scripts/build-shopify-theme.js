@@ -19,33 +19,65 @@ if (fs.existsSync(THEME_DIR)) {
 const dirs = ['assets', 'layout', 'templates', 'config']
 dirs.forEach(d => fs.mkdirSync(path.join(THEME_DIR, d), { recursive: true }))
 
-// 1. Find built JS and CSS files in dist/assets
-const distAssets = fs.readdirSync(path.join(DIST_DIR, 'assets'))
+// Helper to copy files recursively into theme assets (flattening subdirectories for Shopify compatibility)
+const assetMap = {} // e.g. "products/sunscreen.jpeg" -> "sunscreen.jpeg"
+
+function copyToAssets(srcDir, subPath = '') {
+  const items = fs.readdirSync(srcDir)
+  items.forEach(item => {
+    const fullSrc = path.join(srcDir, item)
+    const relKey = subPath ? `${subPath}/${item}` : item
+    const stat = fs.statSync(fullSrc)
+
+    if (stat.isDirectory()) {
+      if (item !== 'assets') {
+        copyToAssets(fullSrc, relKey)
+      }
+    } else if (stat.isFile() && item !== 'index.html') {
+      const flatName = subPath ? `${subPath.replace(/\//g, '_')}_${item}` : item
+      const targetPath = path.join(THEME_DIR, 'assets', flatName)
+      fs.copyFileSync(fullSrc, targetPath)
+      assetMap[relKey] = flatName
+      if (subPath) {
+        assetMap[item] = flatName
+      }
+    }
+  })
+}
+
+// 1. Copy dist assets
+const distAssetsDir = path.join(DIST_DIR, 'assets')
+if (fs.existsSync(distAssetsDir)) {
+  fs.readdirSync(distAssetsDir).forEach(file => {
+    fs.copyFileSync(
+      path.join(distAssetsDir, file),
+      path.join(THEME_DIR, 'assets', file)
+    )
+  })
+}
+
+// Copy dist root files and subfolders (products, trust, hero.mp4, etc)
+copyToAssets(DIST_DIR)
+
+// 2. Find main JS & CSS bundles
+const distAssets = fs.readdirSync(path.join(THEME_DIR, 'assets'))
 let indexJs = ''
 let indexCss = ''
 
 distAssets.forEach(file => {
   if (file.startsWith('index-') && file.endsWith('.js')) indexJs = file
   if (file.startsWith('index-') && file.endsWith('.css')) indexCss = file
-  
-  // Copy all assets to shopify assets directory
-  fs.copyFileSync(
-    path.join(DIST_DIR, 'assets', file),
-    path.join(THEME_DIR, 'assets', file)
-  )
-})
-
-// Copy public assets from dist root to shopify assets
-fs.readdirSync(DIST_DIR).forEach(file => {
-  const fullPath = path.join(DIST_DIR, file)
-  if (fs.statSync(fullPath).isFile() && file !== 'index.html') {
-    fs.copyFileSync(fullPath, path.join(THEME_DIR, 'assets', file))
-  }
 })
 
 console.log(`Found built bundle: JS=${indexJs}, CSS=${indexCss}`)
+console.log('Mapped static assets for Shopify CDN:', assetMap)
 
-// 2. Create layout/theme.liquid
+// Build Liquid asset mappings object string
+const liquidMappings = Object.entries(assetMap)
+  .map(([key, flatName]) => `"${key}": "{{ '${flatName}' | asset_url }}"`)
+  .join(',\n      ')
+
+// 3. Create layout/theme.liquid
 const themeLiquid = `<!doctype html>
 <html class="no-js" lang="{{ request.locale.iso_code }}">
   <head>
@@ -55,6 +87,16 @@ const themeLiquid = `<!doctype html>
     <title>{{ page_title }} – Only Skincare</title>
     {{ content_for_header }}
     {{ '${indexCss}' | asset_url | stylesheet_tag }}
+    <script>
+      window.SHOPIFY_ASSETS = {
+        ${liquidMappings}
+      };
+      window.getAssetUrl = function(path) {
+        if (!path) return '';
+        var clean = path.replace(/^\\//, '');
+        return window.SHOPIFY_ASSETS[clean] || path;
+      };
+    </script>
   </head>
   <body class="bg-[#040906]">
     <div id="root"></div>
@@ -67,13 +109,13 @@ const themeLiquid = `<!doctype html>
 
 fs.writeFileSync(path.join(THEME_DIR, 'layout', 'theme.liquid'), themeLiquid)
 
-// 3. Create templates/index.liquid
+// 4. Create templates/index.liquid
 fs.writeFileSync(
   path.join(THEME_DIR, 'templates', 'index.liquid'),
   `{% comment %} Only Skincare React App mounts inside #root {% endcomment %}`
 )
 
-// 4. Create config/settings_schema.json
+// 5. Create config/settings_schema.json
 fs.writeFileSync(
   path.join(THEME_DIR, 'config', 'settings_schema.json'),
   JSON.stringify([

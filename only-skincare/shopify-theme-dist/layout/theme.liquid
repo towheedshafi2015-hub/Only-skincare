@@ -6,13 +6,44 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>{{ page_title }} – Only Skincare</title>
     {{ content_for_header }}
-    {{ 'index-BOuZg3Q7.css' | asset_url | stylesheet_tag }}
+    {{ 'index-nRE-giQt.css' | asset_url | stylesheet_tag }}
+    <script>
+      window.SHOPIFY_ASSETS = {
+        "favicon.svg": "{{ 'favicon.svg' | asset_url }}",
+      "hero.mp4": "{{ 'hero.mp4' | asset_url }}",
+      "icons.svg": "{{ 'icons.svg' | asset_url }}",
+      "logo.jpeg": "{{ 'logo.jpeg' | asset_url }}",
+      "products/cleansing-oil.jpeg": "{{ 'products_cleansing-oil.jpeg' | asset_url }}",
+      "cleansing-oil.jpeg": "{{ 'products_cleansing-oil.jpeg' | asset_url }}",
+      "products/moisturizer.jpeg": "{{ 'products_moisturizer.jpeg' | asset_url }}",
+      "moisturizer.jpeg": "{{ 'products_moisturizer.jpeg' | asset_url }}",
+      "products/night-cream.jpeg": "{{ 'products_night-cream.jpeg' | asset_url }}",
+      "night-cream.jpeg": "{{ 'products_night-cream.jpeg' | asset_url }}",
+      "products/sunscreen.jpeg": "{{ 'products_sunscreen.jpeg' | asset_url }}",
+      "sunscreen.jpeg": "{{ 'products_sunscreen.jpeg' | asset_url }}",
+      "products/toner.jpeg": "{{ 'products_toner.jpeg' | asset_url }}",
+      "toner.jpeg": "{{ 'products_toner.jpeg' | asset_url }}",
+      "trust/certificate-2.jpeg": "{{ 'trust_certificate-2.jpeg' | asset_url }}",
+      "certificate-2.jpeg": "{{ 'trust_certificate-2.jpeg' | asset_url }}",
+      "trust/certificate-excellence.jpeg": "{{ 'trust_certificate-excellence.jpeg' | asset_url }}",
+      "certificate-excellence.jpeg": "{{ 'trust_certificate-excellence.jpeg' | asset_url }}",
+      "trust/media-mentions.jpeg": "{{ 'trust_media-mentions.jpeg' | asset_url }}",
+      "media-mentions.jpeg": "{{ 'trust_media-mentions.jpeg' | asset_url }}",
+      "trust/regulatory-seals.jpeg": "{{ 'trust_regulatory-seals.jpeg' | asset_url }}",
+      "regulatory-seals.jpeg": "{{ 'trust_regulatory-seals.jpeg' | asset_url }}"
+      };
+      window.getAssetUrl = function(path) {
+        if (!path) return '';
+        var clean = path.replace(/^\//, '');
+        return window.SHOPIFY_ASSETS[clean] || path;
+      };
+    </script>
   </head>
   <body class="bg-[#040906]">
     <div id="root"></div>
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
-    <script type="module" src="{{ 'index-BrFIAy9Y.js' | asset_url }}"></script>
+    <script type="module" src="{{ 'index-Bjo0_Hta.js' | asset_url }}"></script>
   </body>
 </html>

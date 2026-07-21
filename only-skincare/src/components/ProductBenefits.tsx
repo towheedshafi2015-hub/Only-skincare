@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Shield, Droplets, Sun, ShieldCheck, type LucideIcon } from 'lucide-react'
+import { getAssetUrl } from '../lib/assets'
 import '../product-benefits.css'
 
 interface Benefit {
@@ -126,7 +127,7 @@ export default function ProductBenefits() {
             <div className="pb-center-glow" aria-hidden="true" />
             <div className="pb-product-wrap">
               <img
-                src="/products/moisturizer.jpeg"
+                src={getAssetUrl('/products/moisturizer.jpeg')}
                 alt="Only Skincare Moisturiser"
                 className="pb-product-img"
                 loading="lazy"
