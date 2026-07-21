@@ -19,8 +19,7 @@ if (fs.existsSync(THEME_DIR)) {
 const dirs = ['assets', 'layout', 'templates', 'config']
 dirs.forEach(d => fs.mkdirSync(path.join(THEME_DIR, d), { recursive: true }))
 
-// Helper to copy files recursively into theme assets (flattening subdirectories for Shopify compatibility)
-const assetMap = {} // e.g. "products/sunscreen.jpeg" -> "sunscreen.jpeg"
+const assetMap = {}
 
 function copyToAssets(srcDir, subPath = '') {
   const items = fs.readdirSync(srcDir)
@@ -45,7 +44,7 @@ function copyToAssets(srcDir, subPath = '') {
   })
 }
 
-// 1. Copy dist assets
+// 1. Copy dist assets (bundled GLB, PNGs, etc) & record in mapping table
 const distAssetsDir = path.join(DIST_DIR, 'assets')
 if (fs.existsSync(distAssetsDir)) {
   fs.readdirSync(distAssetsDir).forEach(file => {
@@ -53,6 +52,8 @@ if (fs.existsSync(distAssetsDir)) {
       path.join(distAssetsDir, file),
       path.join(THEME_DIR, 'assets', file)
     )
+    assetMap[`assets/${file}`] = file
+    assetMap[file] = file
   })
 }
 
@@ -70,7 +71,7 @@ distAssets.forEach(file => {
 })
 
 console.log(`Found built bundle: JS=${indexJs}, CSS=${indexCss}`)
-console.log('Mapped static assets for Shopify CDN:', assetMap)
+console.log('Mapped static assets for Shopify CDN:', Object.keys(assetMap).length, 'files mapped')
 
 // Build Liquid asset mappings object string
 const liquidMappings = Object.entries(assetMap)
@@ -93,8 +94,8 @@ const themeLiquid = `<!doctype html>
       };
       window.getAssetUrl = function(path) {
         if (!path) return '';
-        var clean = path.replace(/^\\//, '');
-        return window.SHOPIFY_ASSETS[clean] || path;
+        var clean = path.replace(/^\\//, '').split('?')[0];
+        return window.SHOPIFY_ASSETS[clean] || window.SHOPIFY_ASSETS[path] || path;
       };
     </script>
   </head>

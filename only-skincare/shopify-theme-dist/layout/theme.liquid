@@ -9,7 +9,19 @@
     {{ 'index-DXL6R2rl.css' | asset_url | stylesheet_tag }}
     <script>
       window.SHOPIFY_ASSETS = {
-        "favicon.svg": "{{ 'favicon.svg' | asset_url }}",
+        "assets/Founder 2-DLmb3Pc9.png": "{{ 'Founder 2-DLmb3Pc9.png' | asset_url }}",
+      "Founder 2-DLmb3Pc9.png": "{{ 'Founder 2-DLmb3Pc9.png' | asset_url }}",
+      "assets/card-BP4TWJmK.glb": "{{ 'card-BP4TWJmK.glb' | asset_url }}",
+      "card-BP4TWJmK.glb": "{{ 'card-BP4TWJmK.glb' | asset_url }}",
+      "assets/founder-BFzJfpHI.png": "{{ 'founder-BFzJfpHI.png' | asset_url }}",
+      "founder-BFzJfpHI.png": "{{ 'founder-BFzJfpHI.png' | asset_url }}",
+      "assets/index-DXL6R2rl.css": "{{ 'index-DXL6R2rl.css' | asset_url }}",
+      "index-DXL6R2rl.css": "{{ 'index-DXL6R2rl.css' | asset_url }}",
+      "assets/index-Djp3Y4Ah.js": "{{ 'index-Djp3Y4Ah.js' | asset_url }}",
+      "index-Djp3Y4Ah.js": "{{ 'index-Djp3Y4Ah.js' | asset_url }}",
+      "assets/lanyard-BQfo1yFS.png": "{{ 'lanyard-BQfo1yFS.png' | asset_url }}",
+      "lanyard-BQfo1yFS.png": "{{ 'lanyard-BQfo1yFS.png' | asset_url }}",
+      "favicon.svg": "{{ 'favicon.svg' | asset_url }}",
       "hero.mp4": "{{ 'hero.mp4' | asset_url }}",
       "icons.svg": "{{ 'icons.svg' | asset_url }}",
       "logo.jpeg": "{{ 'logo.jpeg' | asset_url }}",
@@ -34,8 +46,8 @@
       };
       window.getAssetUrl = function(path) {
         if (!path) return '';
-        var clean = path.replace(/^\//, '');
-        return window.SHOPIFY_ASSETS[clean] || path;
+        var clean = path.replace(/^\//, '').split('?')[0];
+        return window.SHOPIFY_ASSETS[clean] || window.SHOPIFY_ASSETS[path] || path;
       };
     </script>
   </head>
@@ -44,6 +56,6 @@
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
-    <script type="module" src="{{ 'index-ZrwoLYu7.js' | asset_url }}"></script>
+    <script type="module" src="{{ 'index-Djp3Y4Ah.js' | asset_url }}"></script>
   </body>
 </html>

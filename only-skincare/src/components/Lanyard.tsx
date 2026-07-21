@@ -5,6 +5,7 @@ import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei
 import { Physics, RigidBody, useRopeJoint, useSphericalJoint, BallCollider, CuboidCollider } from '@react-three/rapier'
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline'
 import * as THREE from 'three'
+import { getAssetUrl } from '../lib/assets'
 
 // @ts-ignore
 import cardGLB from '../assets/lanyard/card.glb'
@@ -144,12 +145,17 @@ function Band({
 
   const segmentProps = { type: 'dynamic' as const, canSleep: true, colliders: false as any, angularDamping: 4, linearDamping: 4 }
 
-  const { nodes, materials } = useGLTF(cardGLB) as any
-  const texture = useTexture(lanyardImage || lanyard)
+  const resolvedCardGLB = useMemo(() => getAssetUrl(cardGLB), [])
+  const resolvedLanyard = useMemo(() => getAssetUrl(lanyardImage || lanyard), [lanyardImage])
+  const resolvedFront = useMemo(() => (frontImage ? getAssetUrl(frontImage) : BLANK_PIXEL), [frontImage])
+  const resolvedBack = useMemo(() => (backImage ? getAssetUrl(backImage) : BLANK_PIXEL), [backImage])
+
+  const { nodes, materials } = useGLTF(resolvedCardGLB) as any
+  const texture = useTexture(resolvedLanyard)
 
   // useTexture must be called unconditionally
-  const frontTex = useTexture(frontImage || BLANK_PIXEL)
-  const backTex = useTexture(backImage || BLANK_PIXEL)
+  const frontTex = useTexture(resolvedFront)
+  const backTex = useTexture(resolvedBack)
 
   // Composite the front/back images into the card's texture atlas
   const cardMap = useMemo(() => {
